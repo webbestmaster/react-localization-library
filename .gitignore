@@ -1,0 +1,28 @@
+#IDE
+/.idea/
+/.vscode/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# npm
+node_modules
+package-lock.json
+
+# dist
+/dist/
+
+# report
+/coverage-ts/
+/tsc-check/
+/coverage/
+
+# style's d.ts
+*.scss.d.ts
+
+# other
+.DS_Store
+
+.env

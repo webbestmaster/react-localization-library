@@ -1,0 +1,31 @@
+# dist
+/dist/
+
+# npm
+node_modules
+
+# webpack
+/webpack
+/webpack.config.js
+
+# report
+/coverage-ts/
+/tsc-check/
+/coverage/
+
+# style's d.ts
+*.scss.d.ts
+*.css.d.ts
+
+# example
+
+# /* eslint consistent-this: ["error", "unit", "aggressor"] */
+
+# /* eslint-disable no-unused-vars */
+# var React = require('react');
+# /* eslint-enable no-unused-vars */
+
+# // eslint-disable-next-line no-unused-vars
+# var React = require('react');
+
+# var React = require('react'); // eslint-disable-line no-unused-vars

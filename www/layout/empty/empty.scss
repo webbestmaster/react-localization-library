@@ -1,0 +1,35 @@
+@import './../../css/var';
+
+.empty {
+    display: block;
+    margin: 0 auto;
+    max-width: 85%;
+    padding: 36px 0;
+}
+
+.empty__image {
+    display: block;
+    margin: 0 auto 16px;
+    max-width: 184px;
+    width: 100%;
+}
+
+.empty__header {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+    margin: 0 0 4px;
+    padding: 0;
+    text-align: center;
+}
+
+.empty__text {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 0 0 4px;
+    padding: 0;
+    text-align: center;
+}

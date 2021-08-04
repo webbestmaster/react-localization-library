@@ -1,0 +1,4 @@
+#!/bin/sh
+# fuck husky
+
+npm run pre-commit-hook

@@ -1,0 +1,38 @@
+@import './var';
+
+.width_limiter {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 990px;
+    padding: 0;
+}
+
+.main_font_color {
+    color: $main-font-color;
+}
+
+.secondary_font_color {
+    color: $secondary-font-color;
+}
+
+%link,
+.link {
+    color: inherit;
+    text-decoration: underline;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.disable_user_event {
+    pointer-events: none;
+}
+
+.block {
+    display: block;
+}
+
+.inline {
+    display: inline;
+}
