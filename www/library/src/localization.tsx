@@ -1,14 +1,15 @@
 /* eslint-disable react/no-multi-comp */
 import {Context, createContext, Fragment, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 
-import {getLocalizedString as getLocalizedStringHelper} from './localization-helper';
 import {
     LocaleContextType,
     LocalePropsType,
     LocalizationConfigType,
     LocalizationLibraryType,
     ProviderPropsType,
-} from './localization-type';
+} from '../library';
+
+import {getLocalizedString as getLocalizedStringHelper} from './localization-helper';
 import {splitValueStringRegExp} from './localization-const';
 
 export function createLocalization<TranslationKeys extends string, LocaleName extends string>(
