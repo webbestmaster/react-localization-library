@@ -10,13 +10,13 @@ import {createLocalization, LocalizationConfigType, LocalizationStateType} from 
 
 const enUS = {
     FRIEND: 'friend',
-    HARD_STRING: 'the {value1} data {value2} is {value2} here',
+    HARD_STRING: 'the {value1} data {value2} is {value2} here' as const,
     HELLO: 'Hello',
-    HELLO_SMTH: 'Hello, {smth}!',
+    HELLO_SMTH: 'Hello, {smth}!' as const,
     HELLO_WORLD: 'Hello, World!',
 };
 
-const ruRu: typeof enUS = {
+const ruRu: Record<keyof typeof enUS, string> = {
     FRIEND: 'друг',
     HARD_STRING: 'эти {value1} данные {value2} есть {value2} здесь',
     HELLO: 'Привет',
@@ -49,7 +49,7 @@ describe('Localization', () => {
                     <p className="locale-name">{localeName}</p>
                     <p className="hello">{getLocalizedString('HELLO')}</p>
                     <p className="hello-smth">
-                        {getLocalizedString('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+                        {getLocalizedString<typeof enUS.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
                     </p>
                     <p className="hello-world">{getLocalizedString('HELLO_WORLD')}</p>
                 </div>
@@ -93,7 +93,7 @@ describe('Localization', () => {
                     <p className="locale-name">{localeName}</p>
                     <p className="hello">{getLocalizedString('HELLO')}</p>
                     <p className="hello-smth">
-                        {getLocalizedString('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+                        {getLocalizedString<typeof enUS.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
                     </p>
                     <p className="hello-world">{getLocalizedString('HELLO_WORLD')}</p>
                 </div>
@@ -173,7 +173,7 @@ describe('Localization', () => {
                         <Locale stringKey="HELLO" />
                     </p>
                     <p className="hello-smth">
-                        <Locale
+                        <Locale<typeof enUS.HELLO_SMTH>
                             stringKey="HELLO_SMTH"
                             valueMap={{
                                 smth: (
@@ -185,7 +185,10 @@ describe('Localization', () => {
                         />
                     </p>
                     <p className="hello-hard">
-                        <Locale stringKey="HARD_STRING" valueMap={{value1: 'value-1', value2: 'value-2'}} />
+                        <Locale<typeof enUS.HARD_STRING>
+                            stringKey="HARD_STRING"
+                            valueMap={{value1: 'value-1', value2: 'value-2'}}
+                        />
                     </p>
                 </div>
             );

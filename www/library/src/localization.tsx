@@ -4,7 +4,6 @@ import {Context, createContext, Fragment, useCallback, useContext, useEffect, us
 import {getLocalizedString as getLocalizedStringHelper} from './localization-helper';
 import {
     LocaleContextType,
-    LocaleContextValueMapType,
     LocalePropsType,
     LocalizationConfigType,
     LocalizationLibraryType,
@@ -36,7 +35,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
         const memoizedSetLocaleName = useCallback((newLocaleName: LocaleName) => setLocaleName(newLocaleName), []);
 
         const getLocalizedString = useCallback(
-            (stringKey: TranslationKeys, valueMap?: LocaleContextValueMapType): string =>
+            (stringKey: TranslationKeys, valueMap?: Record<string, string>): string =>
                 getLocalizedStringHelper<TranslationKeys, LocaleName>(stringKey, localeName, localization, valueMap),
             [localeName]
         );
@@ -55,22 +54,13 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
         return <LocaleContext.Provider value={providedData}>{children}</LocaleContext.Provider>;
     }
 
-    function Locale(props: LocalePropsType<TranslationKeys>): JSX.Element {
+    function Locale<TextType>(props: LocalePropsType<TranslationKeys, TextType>): JSX.Element {
         const {stringKey, valueMap} = props;
 
         const {localeName} = useContext<LocaleContextType<TranslationKeys, LocaleName>>(LocaleContext);
 
         if (!valueMap) {
-            return (
-                <>
-                    {getLocalizedStringHelper<TranslationKeys, LocaleName>(
-                        stringKey,
-                        localeName,
-                        localization,
-                        valueMap
-                    )}
-                </>
-            );
+            return <>{getLocalizedStringHelper<TranslationKeys, LocaleName>(stringKey, localeName, localization)}</>;
         }
 
         const resultString = localization[localeName][stringKey]; // 'the {value1} data {value2} is {value2} here'

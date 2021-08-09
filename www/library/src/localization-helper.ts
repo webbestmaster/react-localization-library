@@ -1,6 +1,4 @@
-import {LocaleContextValueMapType} from './localization-type';
-
-function replacePlaceholderMap(rawString: string, valueMap: LocaleContextValueMapType): string {
+function replacePlaceholderMap(rawString: string, valueMap: Record<string, string>): string {
     let resultString = rawString;
 
     const keyList = Object.keys(valueMap);
@@ -17,7 +15,7 @@ export function getLocalizedString<TranslationKeys extends string, LocaleName ex
     stringKey: TranslationKeys,
     localeName: LocaleName,
     localization: Record<LocaleName, Record<TranslationKeys, string>>,
-    valueMap?: LocaleContextValueMapType
+    valueMap?: Record<string, string>
 ): string {
     const resultString = localization[localeName][stringKey];
 

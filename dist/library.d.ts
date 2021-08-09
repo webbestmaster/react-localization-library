@@ -1,2 +1,2 @@
 export { createLocalization } from './src/localization';
-export type { LocaleContextValueMapType, LocalizationStateType, LocaleContextType, LocalePropsType, ProviderPropsType, LocalizationConfigType, LocalizationLibraryType, LocaleContextStringMapType, } from './src/localization-type';
+export type { LocalizationStateType, LocaleContextType, LocalePropsType, ProviderPropsType, LocalizationConfigType, LocalizationLibraryType, } from './src/localization-type';

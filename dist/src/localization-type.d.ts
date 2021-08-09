@@ -1,17 +1,21 @@
 import { FC, ReactNode } from 'react';
-export declare type LocaleContextValueMapType = Record<string, ReactNode>;
-export declare type LocaleContextStringMapType = Record<string, number | string>;
+export declare type ExtractKeysType<ConstType, ValueType> = ConstType extends `${string}{${infer KeyName}}${infer Rest}` ? ExtractKeysType<Rest, ValueType> & {
+    [k in KeyName]: ValueType;
+} : {};
 export declare type LocaleContextType<TranslationKeys extends string, LocaleName extends string> = {
-    getLocalizedString: (stringKey: TranslationKeys, valueMap?: LocaleContextStringMapType) => string;
+    getLocalizedString: <TextType = void>(...args: TextType extends void ? [TranslationKeys] : [TranslationKeys, ExtractKeysType<TextType, string>]) => string;
     localeName: LocaleName;
     setLocaleName: (localeName: LocaleName) => void;
 };
 export declare type ProviderPropsType = {
     children: ReactNode;
 };
-export declare type LocalePropsType<TranslationKeys extends string> = {
+export declare type LocalePropsType<TranslationKeys extends string, TextType = void> = TextType extends void ? {
     stringKey: TranslationKeys;
-    valueMap?: LocaleContextValueMapType;
+    valueMap?: void;
+} : {
+    stringKey: TranslationKeys;
+    valueMap: ExtractKeysType<TextType, ReactNode>;
 };
 export declare type LocalizationStateType<LocaleName extends string> = {
     localeName: LocaleName;
@@ -22,7 +26,7 @@ export declare type LocalizationConfigType<TranslationKeys extends string, Local
     onUseEffect?: (localizationProviderState: LocalizationStateType<LocaleName>) => void;
 };
 export declare type LocalizationLibraryType<TranslationKeys extends string, LocaleName extends string> = {
-    Locale: FC<LocalePropsType<TranslationKeys>>;
+    Locale: <TextType = void>(props: LocalePropsType<TranslationKeys, TextType>) => JSX.Element;
     LocalizationProvider: FC<ProviderPropsType>;
     useLocale: () => LocaleContextType<TranslationKeys, LocaleName>;
 };

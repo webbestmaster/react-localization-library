@@ -3,10 +3,10 @@ import {createLocalization, LocalizationConfigType, LocalizationStateType} from 
 const enUS = {
     FRIEND: 'friend',
     HELLO: 'Hello',
-    HELLO_SMTH: 'Hello, {smth}!',
+    HELLO_SMTH: 'Hello, {smth}!' as const, // required to use with value map
 };
 
-const ruRu: typeof enUS = {
+const ruRu: Record<keyof typeof enUS, string> = {
     FRIEND: 'друг',
     HELLO: 'Привет',
     HELLO_SMTH: 'Привет, {smth}!',
@@ -53,14 +53,14 @@ function ExampleComponent(): JSX.Element {
 
             <p>Example 1</p>
             {getLocalizedString('HELLO')}
-            {getLocalizedString('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+            {getLocalizedString<typeof enUS.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
 
             <p>Example 2</p>
             <Locale stringKey="HELLO" />
-            <Locale stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
+            <Locale<typeof enUS.HELLO_SMTH> stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
 
             <p>Example 3</p>
-            <Locale stringKey="HELLO_SMTH" valueMap={{smth: '100500'}} />
+            <Locale<typeof enUS.HELLO_SMTH> stringKey="HELLO_SMTH" valueMap={{smth: '100500'}} />
         </>
     );
 }

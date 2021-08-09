@@ -1,10 +1,17 @@
 import {FC, ReactNode} from 'react';
 
-export type LocaleContextValueMapType = Record<string, ReactNode>;
-export type LocaleContextStringMapType = Record<string, number | string>;
+// export type LocaleContextValueMapType = Record<string, ReactNode>;
+
+export type ExtractKeysType<ConstType, ValueType> = ConstType extends `${string}{${infer KeyName}}${infer Rest}`
+    ? ExtractKeysType<Rest, ValueType> & {[k in KeyName]: ValueType}
+    : // eslint-disable-next-line @typescript-eslint/ban-types
+      {};
 
 export type LocaleContextType<TranslationKeys extends string, LocaleName extends string> = {
-    getLocalizedString: (stringKey: TranslationKeys, valueMap?: LocaleContextStringMapType) => string;
+    // getLocalizedString: (stringKey: TranslationKeys, valueMap?: LocaleContextStringMapType) => string;
+    getLocalizedString: <TextType = void>(
+        ...args: TextType extends void ? [TranslationKeys] : [TranslationKeys, ExtractKeysType<TextType, string>]
+    ) => string;
     localeName: LocaleName;
     setLocaleName: (localeName: LocaleName) => void;
 };
@@ -13,10 +20,15 @@ export type ProviderPropsType = {
     children: ReactNode;
 };
 
-export type LocalePropsType<TranslationKeys extends string> = {
-    stringKey: TranslationKeys;
-    valueMap?: LocaleContextValueMapType;
-};
+export type LocalePropsType<TranslationKeys extends string, TextType = void> = TextType extends void
+    ? {
+          stringKey: TranslationKeys;
+          valueMap?: void;
+      }
+    : {
+          stringKey: TranslationKeys;
+          valueMap: ExtractKeysType<TextType, ReactNode>;
+      };
 
 export type LocalizationStateType<LocaleName extends string> = {
     localeName: LocaleName;
@@ -29,7 +41,7 @@ export type LocalizationConfigType<TranslationKeys extends string, LocaleName ex
 };
 
 export type LocalizationLibraryType<TranslationKeys extends string, LocaleName extends string> = {
-    Locale: FC<LocalePropsType<TranslationKeys>>;
+    Locale: <TextType = void>(props: LocalePropsType<TranslationKeys, TextType>) => JSX.Element; // FC<LocalePropsType<TranslationKeys>>;
     LocalizationProvider: FC<ProviderPropsType>;
     useLocale: () => LocaleContextType<TranslationKeys, LocaleName>;
 };
