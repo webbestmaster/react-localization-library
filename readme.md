@@ -5,7 +5,7 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-localization-library)
 <!-- [![GitHub stars](https://img.shields.io/github/stars/webbestmaster/react-localization-library?style=social&maxAge=2592000)](https://github.com/webbestmaster/react-localization-library/) -->
 
-Localization hook/component.
+Localization hook and component.
 
 ## Install
 
