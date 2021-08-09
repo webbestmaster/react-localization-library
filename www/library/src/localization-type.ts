@@ -1,14 +1,11 @@
 import {FC, ReactNode} from 'react';
 
-// export type LocaleContextValueMapType = Record<string, ReactNode>;
-
 export type ExtractKeysType<ConstType, ValueType> = ConstType extends `${string}{${infer KeyName}}${infer Rest}`
     ? ExtractKeysType<Rest, ValueType> & {[k in KeyName]: ValueType}
     : // eslint-disable-next-line @typescript-eslint/ban-types
       {};
 
 export type LocaleContextType<TranslationKeys extends string, LocaleName extends string> = {
-    // getLocalizedString: (stringKey: TranslationKeys, valueMap?: LocaleContextStringMapType) => string;
     getLocalizedString: <TextType = void>(
         ...args: TextType extends void ? [TranslationKeys] : [TranslationKeys, ExtractKeysType<TextType, string>]
     ) => string;
