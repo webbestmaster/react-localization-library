@@ -1,88 +1,75 @@
-/* global setTimeout */
+import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library/library';
 
-import {lazy, Suspense, useEffect, useState} from 'react';
+const enUS = {
+    FRIEND: 'friend',
+    HELLO: 'Hello',
+    HELLO_SMTH: 'Hello, {smth}!',
+};
 
-import {Locale, useLocale} from '../../provider/locale/locale-context';
-import {Spinner} from '../../layout/spinner/spinner';
-import {ErrorData} from '../../layout/error-data/error-data';
-import {useSystem} from '../../hook/system-hook/system-hook';
-import {NavigationLink} from '../../hook/url-hook/navigation-link';
-import {appRoute} from '../../component/app/app-route';
-import {LocaleNameEnum} from '../../provider/locale/locale-context-type';
-import {useFormat} from '../../hook/format-hook/format-hook';
-import {getTestNodeData, getTestNodeId} from '../../util/auto-test';
+const ruRu: typeof enUS = {
+    FRIEND: 'друг',
+    HELLO: 'Привет',
+    HELLO_SMTH: 'Привет, {smth}!',
+};
 
-import pngImageSrc from './image/marker-icon-2x.png';
-import svgImageSrc, {ReactComponent as SvgAsReactComponent} from './image/questions-with-an-official-answer.svg';
-import homeStyle from './home.scss';
+type LocaleNameType = 'en-US' | 'ru-RU';
 
-console.log(ErrorData);
+const localizationConfig: LocalizationConfigType<keyof typeof enUS, LocaleNameType> = {
+    defaultLocaleName: 'en-US',
+    localization: {
+        'en-US': enUS,
+        'ru-RU': ruRu,
+    },
+    onUseEffect: (data: LocalizationStateType<LocaleNameType>) => {
+        const {localeName: newLocaleName} = data;
 
-const LoadMeAsyncLazy = lazy(
-    () =>
-        import(
-            /* webpackChunkName: 'load-me-async-lazy' */
-            '../../component/load-me-async-lazy/load-me-async-lazy'
-        )
-);
+        console.log('new locale name', newLocaleName);
+    },
+};
 
-export function Home(): JSX.Element {
-    const {getLocalizedString, setLocaleName, localeName} = useLocale();
-    const {getFormattedNumber} = useFormat();
-    const {screen} = useSystem();
+const {
+    LocalizationProvider, // provider, required as wrapper
+    useLocale, // hook
+    Locale, // helpful component
+} = createLocalization<keyof typeof enUS, LocaleNameType>(localizationConfig);
 
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-
-    setTimeout(() => {
-        console.log(isOpen);
-        setIsOpen(false);
-    }, 1e3);
-
-    useEffect(() => {
-        console.log('home');
-    });
-
-    console.log('evaluate home');
+function ExampleComponent(): JSX.Element {
+    const {
+        localeName, // LocaleNameType, in this case: 'en-US' | 'ru-RU'
+        getLocalizedString, // (stringKey: keyof typeof enUS, valueMap?: Record<string, number | string>) => string;
+        setLocaleName, // (localeName: LocaleNameType) => void
+    } = useLocale();
 
     return (
-        <div>
-            <h1 className={homeStyle.home_header}>home page</h1>
+        <>
+            <h1>Current locale: {localeName}</h1>
 
-            <hr />
-
-            <button
-                data-test-data={getTestNodeData({data: 'some-string'})}
-                data-test-id={getTestNodeId('language-button')}
-                onClick={() =>
-                    setLocaleName(localeName === LocaleNameEnum.enUs ? LocaleNameEnum.ruRu : LocaleNameEnum.enUs)}
-                type="button"
-            >
-                {localeName}
+            <button onClick={() => setLocaleName('en-US')} type="button">
+                use en-US
+            </button>
+            <button onClick={() => setLocaleName('ru-RU')} type="button">
+                use ru-RU
             </button>
 
-            <hr />
+            <p>Example 1</p>
+            {getLocalizedString('HELLO')}
+            {getLocalizedString('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
 
-            <NavigationLink to={appRoute.info.path}>to info</NavigationLink>
+            <p>Example 2</p>
+            <Locale stringKey="HELLO" />
+            <Locale stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
 
-            <hr />
+            <p>Example 3</p>
+            <Locale stringKey="HELLO_SMTH" valueMap={{smth: '100500'}} />
+        </>
+    );
+}
 
-            <code>{getFormattedNumber(321, {style: 'unit', unit: 'liter', unitDisplay: 'long'})}</code>
-
-            <pre>{JSON.stringify(screen, null, 4)}</pre>
-
-            <Locale stringKey="BUTTON__APPLY" />
-
-            <h4>{getLocalizedString('BUTTON__APPLY')}</h4>
-
-            <img alt="" src={pngImageSrc} />
-
-            <img alt="" src={svgImageSrc} />
-
-            <SvgAsReactComponent />
-
-            <Suspense fallback={<Spinner position="absolute" />}>
-                <LoadMeAsyncLazy smth="home" />
-            </Suspense>
-        </div>
+// eslint-disable-next-line react/no-multi-comp
+export function ExampleApp(): JSX.Element {
+    return (
+        <LocalizationProvider>
+            <ExampleComponent />
+        </LocalizationProvider>
     );
 }

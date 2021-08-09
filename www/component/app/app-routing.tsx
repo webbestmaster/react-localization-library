@@ -1,3 +1,4 @@
+/*
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import {Home} from '../../page/home/home';
@@ -18,3 +19,4 @@ export function AppRouting(): JSX.Element {
         </BrowserRouter>
     );
 }
+*/

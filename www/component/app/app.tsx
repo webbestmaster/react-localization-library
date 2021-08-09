@@ -1,10 +1,5 @@
-import {AppProvider} from './app-provider';
-import {AppRouting} from './app-routing';
+import {ExampleApp} from '../../page/home/home';
 
 export function App(): JSX.Element {
-    return (
-        <AppProvider>
-            <AppRouting />
-        </AppProvider>
-    );
+    return <ExampleApp />;
 }
