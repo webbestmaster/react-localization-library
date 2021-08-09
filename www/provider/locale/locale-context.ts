@@ -1,6 +1,5 @@
 import {createLocalization, LocalizationStateType} from '../../library/library';
 
-
 import {getSavedLocaleName, saveLocaleName} from './locale-context-helper';
 import {LocaleNameEnum} from './locale-context-type';
 import {LangKeyType} from './translation/type';

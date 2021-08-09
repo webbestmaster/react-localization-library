@@ -6,8 +6,7 @@ import {useEffect} from 'react';
 
 import {render} from '@testing-library/react';
 
-import {createLocalization} from './localization';
-import {LocalizationConfigType, LocalizationStateType} from './localization-type';
+import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../library';
 
 const enUS = {
     FRIEND: 'friend',

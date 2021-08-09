@@ -7,4 +7,5 @@ export type {
     ProviderPropsType,
     LocalizationConfigType,
     LocalizationLibraryType,
+    LocaleContextStringMapType,
 } from './src/localization-type';

@@ -1,9 +1,10 @@
 import {FC, ReactNode} from 'react';
 
 export type LocaleContextValueMapType = Record<string, ReactNode>;
+export type LocaleContextStringMapType = Record<string, number | string>;
 
 export type LocaleContextType<TranslationKeys extends string, LocaleName extends string> = {
-    getLocalizedString: (stringKey: TranslationKeys, valueMap?: LocaleContextValueMapType) => string;
+    getLocalizedString: (stringKey: TranslationKeys, valueMap?: LocaleContextStringMapType) => string;
     localeName: LocaleName;
     setLocaleName: (localeName: LocaleName) => void;
 };
