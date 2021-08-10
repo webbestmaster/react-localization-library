@@ -6,4 +6,5 @@ export type {
     ProviderPropsType,
     LocalizationConfigType,
     LocalizationLibraryType,
+    IsStringConstType,
 } from './src/localization-type';
