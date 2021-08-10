@@ -17,7 +17,11 @@ export type ProviderPropsType = {
     children: ReactNode;
 };
 
-export type LocalePropsType<TranslationKeys extends string, TextType = void> = TextType extends void
+export type IsStringConstType<MayBeConstStringType> =
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+    MayBeConstStringType extends `${string}{${infer TemplatePartType}}${string}` ? MayBeConstStringType : void;
+
+export type LocalePropsType<TranslationKeys extends string, TextType = void> = IsStringConstType<TextType> extends void
     ? {
           stringKey: TranslationKeys;
           valueMap?: void;
