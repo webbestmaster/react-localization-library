@@ -10,7 +10,7 @@ export declare type LocaleContextType<TranslationKeys extends string, LocaleName
 export declare type ProviderPropsType = {
     children: ReactNode;
 };
-export declare type IsStringConstType<MayBeConstStringType> = MayBeConstStringType extends `${string}{${infer TemplatePartType}}${string}` ? MayBeConstStringType : void;
+export declare type IsStringConstType<MayBeConstStringType> = MayBeConstStringType extends `${string}{${string}}${string}` ? MayBeConstStringType : void;
 export declare type LocalePropsType<TranslationKeys extends string, TextType = void> = IsStringConstType<TextType> extends void ? {
     stringKey: TranslationKeys;
     valueMap?: void;
