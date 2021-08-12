@@ -1,23 +1,28 @@
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library/library';
 
-const enUS = {
-    FRIEND: 'friend',
-    HELLO: 'Hello',
+const enUs = {
+    DIFFERENT_VARIABLES: 'Hello, {one}!' as const, // required to use with value map
+    FRIEND: 'friend' as const,
+    HELLO: 'Hello' as const,
     HELLO_SMTH: 'Hello, {smth}!' as const, // required to use with value map
+    KEY_ONLY_EU_US: 'Hello, en-US!', // TS Error while using
 };
 
-const ruRu: Record<keyof typeof enUS, string> = {
+const ruRu = {
+    DIFFERENT_VARIABLES: 'Hello, {two}!' as const, // required to use with value map
     FRIEND: 'друг',
     HELLO: 'Привет',
-    HELLO_SMTH: 'Привет, {smth}!',
+    HELLO_SMTH: 'Привет, {smth}!' as const, // required to use with value map
+    KEY_ONLY_RU_RU: 'Hello, ru-RU!', // TS Error while using
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
+type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
-const localizationConfig: LocalizationConfigType<keyof typeof enUS, LocaleNameType> = {
+const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
     defaultLocaleName: 'en-US',
     localization: {
-        'en-US': enUS,
+        'en-US': enUs,
         'ru-RU': ruRu,
     },
     onUseEffect: (data: LocalizationStateType<LocaleNameType>) => {
@@ -27,16 +32,18 @@ const localizationConfig: LocalizationConfigType<keyof typeof enUS, LocaleNameTy
     },
 };
 
+// type ExtractLocaleKeyType = typeof localizationConfig.localization[LocaleNameType]
+
 const {
     LocalizationProvider, // provider, required as wrapper
     useLocale, // hook
     Locale, // helpful component
-} = createLocalization<keyof typeof enUS, LocaleNameType>(localizationConfig);
+} = createLocalization<LocaleKeysType, LocaleNameType>(localizationConfig);
 
 function ExampleComponent(): JSX.Element {
     const {
         localeName, // LocaleNameType, in this case: 'en-US' | 'ru-RU'
-        getLocalizedString, // (stringKey: keyof typeof enUS, valueMap?: Record<string, number | string>) => string;
+        getLocalizedString, // (stringKey: keyof typeof enUs, valueMap?: Record<string, number | string>) => string;
         setLocaleName, // (localeName: LocaleNameType) => void
     } = useLocale();
 
@@ -53,14 +60,20 @@ function ExampleComponent(): JSX.Element {
 
             <p>Example 1</p>
             {getLocalizedString('HELLO')}
-            {getLocalizedString<typeof enUS.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+            {getLocalizedString<typeof enUs.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
 
             <p>Example 2</p>
             <Locale stringKey="HELLO" />
-            <Locale<typeof enUS.HELLO_SMTH> stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
+            <Locale<typeof enUs.HELLO_SMTH> stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
 
             <p>Example 3</p>
-            <Locale<typeof enUS.HELLO_SMTH> stringKey="HELLO_SMTH" valueMap={{smth: '100500'}} />
+            <Locale<typeof enUs.HELLO_SMTH> stringKey="HELLO_SMTH" valueMap={{smth: '100500'}} />
+
+            <p>Example 4</p>
+            <Locale<typeof enUs.DIFFERENT_VARIABLES> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500'}} />
+            <Locale<typeof ruRu.DIFFERENT_VARIABLES> stringKey="DIFFERENT_VARIABLES" valueMap={{two: '100500'}} />
+
+            {/* <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{two: '100500'}}/>*/}
         </>
     );
 }

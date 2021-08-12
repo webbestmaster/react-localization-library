@@ -8,7 +8,7 @@ import {render} from '@testing-library/react';
 
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../library';
 
-const enUS = {
+const enUs = {
     FRIEND: 'friend',
     HARD_STRING: 'the {value1} data {value2} is {value2} here' as const,
     HELLO: 'Hello',
@@ -16,7 +16,7 @@ const enUS = {
     HELLO_WORLD: 'Hello, World!',
 };
 
-const ruRu: Record<keyof typeof enUS, string> = {
+const ruRu = {
     FRIEND: 'друг',
     HARD_STRING: 'эти {value1} данные {value2} есть {value2} здесь',
     HELLO: 'Привет',
@@ -25,18 +25,19 @@ const ruRu: Record<keyof typeof enUS, string> = {
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
+type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
-const localizationConfig: LocalizationConfigType<keyof typeof enUS, LocaleNameType> = {
+const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
     defaultLocaleName: 'en-US',
     localization: {
-        'en-US': enUS,
+        'en-US': enUs,
         'ru-RU': ruRu,
     },
 };
 
 describe('Localization', () => {
     it('localization provider', () => {
-        const {LocalizationProvider, useLocale} = createLocalization<keyof typeof enUS, LocaleNameType>(
+        const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
 
@@ -49,7 +50,7 @@ describe('Localization', () => {
                     <p className="locale-name">{localeName}</p>
                     <p className="hello">{getLocalizedString('HELLO')}</p>
                     <p className="hello-smth">
-                        {getLocalizedString<typeof enUS.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+                        {getLocalizedString<typeof enUs.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
                     </p>
                     <p className="hello-world">{getLocalizedString('HELLO_WORLD')}</p>
                 </div>
@@ -76,7 +77,7 @@ describe('Localization', () => {
     });
 
     it('localization provider - change locale name', () => {
-        const {LocalizationProvider, useLocale} = createLocalization<keyof typeof enUS, LocaleNameType>(
+        const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
 
@@ -93,7 +94,7 @@ describe('Localization', () => {
                     <p className="locale-name">{localeName}</p>
                     <p className="hello">{getLocalizedString('HELLO')}</p>
                     <p className="hello-smth">
-                        {getLocalizedString<typeof enUS.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+                        {getLocalizedString<typeof enUs.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
                     </p>
                     <p className="hello-world">{getLocalizedString('HELLO_WORLD')}</p>
                 </div>
@@ -122,7 +123,7 @@ describe('Localization', () => {
     it('localization provider - on useEffect', () => {
         let testingLocaleName: LocaleNameType = 'en-US';
 
-        const {LocalizationProvider, useLocale} = createLocalization<keyof typeof enUS, LocaleNameType>({
+        const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
             ...localizationConfig,
             defaultLocaleName: testingLocaleName,
             onUseEffect: (data: LocalizationStateType<LocaleNameType>) => {
@@ -155,7 +156,7 @@ describe('Localization', () => {
     });
 
     it('locale', () => {
-        const {LocalizationProvider, useLocale, Locale} = createLocalization<keyof typeof enUS, LocaleNameType>(
+        const {LocalizationProvider, useLocale, Locale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
 
@@ -173,7 +174,7 @@ describe('Localization', () => {
                         <Locale stringKey="HELLO" />
                     </p>
                     <p className="hello-smth">
-                        <Locale<typeof enUS.HELLO_SMTH>
+                        <Locale<typeof enUs.HELLO_SMTH>
                             stringKey="HELLO_SMTH"
                             valueMap={{
                                 smth: (
@@ -185,7 +186,7 @@ describe('Localization', () => {
                         />
                     </p>
                     <p className="hello-hard">
-                        <Locale<typeof enUS.HARD_STRING>
+                        <Locale<typeof enUs.HARD_STRING>
                             stringKey="HARD_STRING"
                             valueMap={{value1: 'value-1', value2: 'value-2'}}
                         />

@@ -1,4 +1,5 @@
 import {FC, ReactNode} from 'react';
+// import {ruRu, enUs, LocaleKeysType} from "../../page/home/home";
 
 export type ExtractKeysType<ConstType, ValueType> = ConstType extends `${string}{${infer KeyName}}${infer Rest}`
     ? ExtractKeysType<Rest, ValueType> & {[k in KeyName]: ValueType}
@@ -9,6 +10,10 @@ export type LocaleContextType<TranslationKeys extends string, LocaleName extends
     getLocalizedString: <TextType = void>(
         ...args: TextType extends void ? [TranslationKeys] : [TranslationKeys, ExtractKeysType<TextType, string>]
     ) => string;
+    // getLocalizedString: <TextType extends LocaleKeysType>(
+    //     stringKey: TextType,
+    //     valueMap?: ExtractKeysType<typeof enUs[TextType], string> & ExtractKeysType<typeof ruRu[TextType], string>
+    // ) => string;
     localeName: LocaleName;
     setLocaleName: (localeName: LocaleName) => void;
 };
