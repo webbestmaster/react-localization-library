@@ -54,7 +54,7 @@ function ExampleComponent(): JSX.Element {
         setLocaleName, // (localeName: LocaleNameType) => void
     } = useLocale();
 
-    // use example
+    // usage example
     getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: '', two: ''}); //  pass
     getLocalizedString<'FRIEND'>('FRIEND', {anyProperty: ''}); // pass, use 'as const' with parameters to control
     // getLocalizedString<'FRIEND'>('FRIEND'); // throw error
