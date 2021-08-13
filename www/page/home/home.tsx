@@ -1,4 +1,7 @@
+import {ReactNode} from 'react';
+
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library/library';
+import {ExtractKeysType} from '../../library/src/localization-type';
 
 const enUs = {
     DIFFERENT_VARIABLES: 'Hello, {one}!' as const, // required to use with value map
@@ -19,6 +22,11 @@ const ruRu = {
 type LocaleNameType = 'en-US' | 'ru-RU';
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
+type ValuesMapType = {
+    [key in LocaleKeysType]: ExtractKeysType<typeof enUs[key], ReactNode> &
+        ExtractKeysType<typeof ruRu[key], ReactNode>;
+};
+
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
     defaultLocaleName: 'en-US',
     localization: {
@@ -38,7 +46,7 @@ const {
     LocalizationProvider, // provider, required as wrapper
     useLocale, // hook
     Locale, // helpful component
-} = createLocalization<LocaleKeysType, LocaleNameType>(localizationConfig);
+} = createLocalization<LocaleKeysType, LocaleNameType, ValuesMapType>(localizationConfig);
 
 function ExampleComponent(): JSX.Element {
     const {
@@ -46,6 +54,8 @@ function ExampleComponent(): JSX.Element {
         getLocalizedString, // (stringKey: keyof typeof enUs, valueMap?: Record<string, number | string>) => string;
         setLocaleName, // (localeName: LocaleNameType) => void
     } = useLocale();
+
+    getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: '', two: ''});
 
     return (
         <>
@@ -60,18 +70,18 @@ function ExampleComponent(): JSX.Element {
 
             <p>Example 1</p>
             {getLocalizedString('HELLO')}
-            {getLocalizedString<typeof enUs.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+            {getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
 
             <p>Example 2</p>
             <Locale stringKey="HELLO" />
-            <Locale<typeof enUs.HELLO_SMTH> stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
+            <Locale<'HELLO_SMTH'> stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
 
             <p>Example 3</p>
-            <Locale<typeof enUs.HELLO_SMTH> stringKey="HELLO_SMTH" valueMap={{smth: '100500'}} />
+            <Locale<'HELLO_SMTH'> stringKey="HELLO_SMTH" valueMap={{smth: '100500'}} />
 
             <p>Example 4</p>
-            <Locale<typeof enUs.DIFFERENT_VARIABLES> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500'}} />
-            <Locale<typeof ruRu.DIFFERENT_VARIABLES> stringKey="DIFFERENT_VARIABLES" valueMap={{two: '100500'}} />
+            <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
+            <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
 
             {/* <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{two: '100500'}}/>*/}
         </>
