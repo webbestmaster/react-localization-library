@@ -1,3 +1,4 @@
+/*
 import {ReactNode} from 'react';
 
 import {createLocalization, LocalizationStateType} from '../../library/library';
@@ -27,5 +28,6 @@ const {LocalizationProvider, Locale, useLocale} = createLocalization<LangKeyType
         saveLocaleName<LocaleNameEnum>(localeName);
     },
 });
+*/
 
-export {Locale, useLocale, LocalizationProvider};
+// export {Locale, useLocale, LocalizationProvider};

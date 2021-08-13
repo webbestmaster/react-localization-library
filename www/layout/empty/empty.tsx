@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 
 import {LangKeyType} from '../../provider/locale/translation/type';
-import {Locale} from '../../provider/locale/locale-context';
+// import {Locale} from '../../provider/locale/locale-context';
 import {classNames} from '../../util/css';
 
 import emptyImageSrc from './image/empty.svg';
@@ -21,11 +21,7 @@ export function Empty(props: PropsType): JSX.Element {
             return null;
         }
 
-        return (
-            <h4 className={emptyStyle.empty__header}>
-                <Locale stringKey={mainText} />
-            </h4>
-        );
+        return <h4 className={emptyStyle.empty__header}>{/* <Locale stringKey={mainText} />*/}</h4>;
     }, [mainText]);
 
     const secondaryTextNode = useMemo((): JSX.Element | null => {
@@ -33,11 +29,7 @@ export function Empty(props: PropsType): JSX.Element {
             return null;
         }
 
-        return (
-            <p className={emptyStyle.empty__text}>
-                <Locale stringKey={secondaryText} />
-            </p>
-        );
+        return <p className={emptyStyle.empty__text}>{/* <Locale stringKey={secondaryText} />*/}</p>;
     }, [secondaryText]);
 
     return (

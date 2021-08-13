@@ -2,9 +2,9 @@
 
 import {lazy, Suspense, useEffect, useState} from 'react';
 
-import {Locale, useLocale} from '../../provider/locale/locale-context';
+// import {Locale, useLocale} from '../../provider/locale/locale-context';
 import {Spinner} from '../../layout/spinner/spinner';
-import {ErrorData} from '../../layout/error-data/error-data';
+// import {ErrorData} from '../../layout/error-data/error-data';
 import {useSystem} from '../../hook/system-hook/system-hook';
 import {NavigationLink} from '../../hook/url-hook/navigation-link';
 import {appRoute} from '../../component/app/app-route';
@@ -13,7 +13,7 @@ import svgImageSrc, {ReactComponent as SvgAsReactComponent} from '../home/image/
 import homeStyle from '../home/home.scss';
 import {useScreenSize} from '../../hook/system-hook/screen-size-hook';
 
-console.log(ErrorData);
+// console.log(ErrorData);
 
 const LoadMeAsyncLazy = lazy(
     () =>
@@ -24,7 +24,7 @@ const LoadMeAsyncLazy = lazy(
 );
 
 export function Info(): JSX.Element {
-    const {getLocalizedString} = useLocale();
+    // const {getLocalizedString} = useLocale();
     const screen = useSystem();
     const screenSize = useScreenSize();
 
@@ -50,9 +50,9 @@ export function Info(): JSX.Element {
             <pre>{JSON.stringify(screen, null, 4)}</pre>
             <pre>{JSON.stringify(screenSize, null, 4)}</pre>
 
-            <Locale stringKey="BUTTON__APPLY" />
+            {/* <Locale stringKey="BUTTON__APPLY" />*/}
 
-            <h4>{getLocalizedString('BUTTON__APPLY')}</h4>
+            {/* <h4>{getLocalizedString('BUTTON__APPLY')}</h4>*/}
 
             <img alt="" src={pngImageSrc} />
 

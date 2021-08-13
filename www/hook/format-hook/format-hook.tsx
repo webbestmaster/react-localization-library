@@ -1,3 +1,4 @@
+/*
 import {useCallback} from 'react';
 
 import {useLocale} from '../../provider/locale/locale-context';
@@ -11,8 +12,9 @@ import {
 import {UseFormatHookType} from './format-hook-type';
 
 export function useFormat(): UseFormatHookType {
-    const {localeName} = useLocale();
+    // const {localeName} = useLocale();
 
+/!*
     const getFormattedNumberWrapper = useCallback(
         (value: number, options?: NumberFormatOptionsType): string => {
             return getFormattedNumber(localeName, value, options);
@@ -26,9 +28,11 @@ export function useFormat(): UseFormatHookType {
         },
         [localeName]
     );
+*!/
 
     return {
         getFormattedDateTime: getFormattedDateTimeWrapper,
         getFormattedNumber: getFormattedNumberWrapper,
     };
 }
+*/

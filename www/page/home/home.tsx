@@ -1,12 +1,14 @@
-import {ReactNode} from 'react';
-
-import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library/library';
-import {ExtractKeysType} from '../../library/src/localization-type';
+import {
+    createLocalization,
+    LocalizationConfigType,
+    LocalizationStateType,
+    ExtractKeysStringType,
+} from '../../library/library';
 
 const enUs = {
     DIFFERENT_VARIABLES: 'Hello, {one}!' as const, // required to use with value map
-    FRIEND: 'friend' as const,
-    HELLO: 'Hello' as const,
+    FRIEND: 'friend',
+    HELLO: 'Hello',
     HELLO_SMTH: 'Hello, {smth}!' as const, // required to use with value map
     KEY_ONLY_EU_US: 'Hello, en-US!', // TS Error while using
 };
@@ -23,8 +25,7 @@ type LocaleNameType = 'en-US' | 'ru-RU';
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 type ValuesMapType = {
-    [key in LocaleKeysType]: ExtractKeysType<typeof enUs[key], ReactNode> &
-        ExtractKeysType<typeof ruRu[key], ReactNode>;
+    [key in LocaleKeysType]: ExtractKeysStringType<typeof enUs[key]> & ExtractKeysStringType<typeof ruRu[key]>;
 };
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
@@ -55,10 +56,36 @@ function ExampleComponent(): JSX.Element {
         setLocaleName, // (localeName: LocaleNameType) => void
     } = useLocale();
 
-    getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: '', two: ''});
+    // TS passed
+    getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: '', two: ''}); // required to pass
+    getLocalizedString<'FRIEND'>('FRIEND', {aasd: ''}); // optional
+    // getLocalizedString<'FRIEND'>('FRIEND'); // try to throw error
+    // getLocalizedString('FRIEND', {}); // optional, try to throw error
+    getLocalizedString('FRIEND'); // required to pass
+    getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: ''}); // required to pass
+    // getLocalizedString('HELLO_SMTH', {smth: ''}); // try to throw error
+    // getLocalizedString('HELLO_SMTH', {smthw: '2'}); // try to throw error
+
+    // TS error
+    // getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: <div>1</div>, two: 1}); // required to error
+    // getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {two: ''}); // required to error
+    // getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: ''}); // required to error
+    // getLocalizedString<'FRIEND'>('FRIEND', {}); // optional
+    // getLocalizedString<'FRIEND'>('FRIEND'); // optional
+    // getLocalizedString('FRIEND', {}); // optional
+    // getLocalizedString('FRIEND', {noProps: ''}); // required
+    // getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: <span>1</span>}); // required to error
+    // getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {noProp: ''}); // required to error
+    // getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: '', extraProps: ''}); // required to error
+    // getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH'); // required to error
+    // getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {noProp: <span>1</span>}); // required to error
+    // getLocalizedString('HELLO_SMTH', {smth: ''}); // optional
+    // getLocalizedString('HELLO_SMTH'); // optional
+    // getLocalizedString('HELLO', {noProp: <span>1</span>}); // optional
 
     return (
         <>
+            {/*
             <h1>Current locale: {localeName}</h1>
 
             <button onClick={() => setLocaleName('en-US')} type="button">
@@ -82,6 +109,7 @@ function ExampleComponent(): JSX.Element {
             <p>Example 4</p>
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
+*/}
 
             {/* <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{two: '100500'}}/>*/}
         </>
