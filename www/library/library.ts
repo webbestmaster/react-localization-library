@@ -8,5 +8,4 @@ export type {
     LocalizationLibraryType,
     IsStringConstType,
     ExtractKeysType,
-    ExtractKeysStringType,
 } from './src/localization-type';

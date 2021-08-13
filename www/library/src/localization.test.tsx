@@ -1,14 +1,12 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
-/* glo__bal describe, it, expect */
-/* global describe */
+/* global describe, it, expect */
 
-/*
 import {useEffect} from 'react';
 
 import {render} from '@testing-library/react';
 
-import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../library';
+import {createLocalization, ExtractKeysType, LocalizationConfigType, LocalizationStateType} from '../library';
 
 const enUs = {
     FRIEND: 'friend',
@@ -20,14 +18,18 @@ const enUs = {
 
 const ruRu = {
     FRIEND: 'друг',
-    HARD_STRING: 'эти {value1} данные {value2} есть {value2} здесь',
+    HARD_STRING: 'эти {value1} данные {value2} есть {value2} здесь' as const,
     HELLO: 'Привет',
-    HELLO_SMTH: 'Привет, {smth}!',
+    HELLO_SMTH: 'Привет, {smth}!' as const,
     HELLO_WORLD: 'Привет, Мир!',
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
+
+type ValuesMapType = {
+    [key in LocaleKeysType]: ExtractKeysType<typeof enUs[key]> & ExtractKeysType<typeof ruRu[key]>;
+};
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
     defaultLocaleName: 'en-US',
@@ -36,12 +38,10 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
         'ru-RU': ruRu,
     },
 };
-*/
 
 describe('Localization', () => {
-    /*
     it('localization provider', () => {
-        const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
+        const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType, ValuesMapType>(
             localizationConfig
         );
 
@@ -54,7 +54,7 @@ describe('Localization', () => {
                     <p className="locale-name">{localeName}</p>
                     <p className="hello">{getLocalizedString('HELLO')}</p>
                     <p className="hello-smth">
-                        {getLocalizedString<typeof enUs.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+                        {getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
                     </p>
                     <p className="hello-world">{getLocalizedString('HELLO_WORLD')}</p>
                 </div>
@@ -81,7 +81,7 @@ describe('Localization', () => {
     });
 
     it('localization provider - change locale name', () => {
-        const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
+        const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType, ValuesMapType>(
             localizationConfig
         );
 
@@ -98,7 +98,7 @@ describe('Localization', () => {
                     <p className="locale-name">{localeName}</p>
                     <p className="hello">{getLocalizedString('HELLO')}</p>
                     <p className="hello-smth">
-                        {getLocalizedString<typeof enUs.HELLO_SMTH>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+                        {getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
                     </p>
                     <p className="hello-world">{getLocalizedString('HELLO_WORLD')}</p>
                 </div>
@@ -127,7 +127,7 @@ describe('Localization', () => {
     it('localization provider - on useEffect', () => {
         let testingLocaleName: LocaleNameType = 'en-US';
 
-        const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
+        const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType, ValuesMapType>({
             ...localizationConfig,
             defaultLocaleName: testingLocaleName,
             onUseEffect: (data: LocalizationStateType<LocaleNameType>) => {
@@ -160,9 +160,11 @@ describe('Localization', () => {
     });
 
     it('locale', () => {
-        const {LocalizationProvider, useLocale, Locale} = createLocalization<LocaleKeysType, LocaleNameType>(
-            localizationConfig
-        );
+        const {LocalizationProvider, useLocale, Locale} = createLocalization<
+            LocaleKeysType,
+            LocaleNameType,
+            ValuesMapType
+        >(localizationConfig);
 
         // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
@@ -178,7 +180,7 @@ describe('Localization', () => {
                         <Locale stringKey="HELLO" />
                     </p>
                     <p className="hello-smth">
-                        <Locale<typeof enUs.HELLO_SMTH>
+                        <Locale<'HELLO_SMTH'>
                             stringKey="HELLO_SMTH"
                             valueMap={{
                                 smth: (
@@ -190,7 +192,7 @@ describe('Localization', () => {
                         />
                     </p>
                     <p className="hello-hard">
-                        <Locale<typeof enUs.HARD_STRING>
+                        <Locale<'HARD_STRING'>
                             stringKey="HARD_STRING"
                             valueMap={{value1: 'value-1', value2: 'value-2'}}
                         />
@@ -215,5 +217,4 @@ describe('Localization', () => {
 
         unmount();
     });
-*/
 });

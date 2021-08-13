@@ -63,8 +63,8 @@ export function createLocalization<
         return <LocaleContext.Provider value={providedData}>{children}</LocaleContext.Provider>;
     }
 
-    function Locale<TextType extends TranslationKeys>(
-        props: LocalePropsType<TranslationKeys, TextType, ValuesMapType>
+    function Locale<TextType extends TranslationKeys | void = void>(
+        props: LocalePropsType<TranslationKeys, ValuesMapType, TextType>
     ): JSX.Element {
         const {stringKey, valueMap} = props;
 

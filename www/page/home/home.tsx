@@ -2,7 +2,7 @@ import {
     createLocalization,
     LocalizationConfigType,
     LocalizationStateType,
-    ExtractKeysStringType,
+    ExtractKeysType,
 } from '../../library/library';
 
 const enUs = {
@@ -25,7 +25,7 @@ type LocaleNameType = 'en-US' | 'ru-RU';
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 type ValuesMapType = {
-    [key in LocaleKeysType]: ExtractKeysStringType<typeof enUs[key]> & ExtractKeysStringType<typeof ruRu[key]>;
+    [key in LocaleKeysType]: ExtractKeysType<typeof enUs[key]> & ExtractKeysType<typeof ruRu[key]>;
 };
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
@@ -41,8 +41,6 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
     },
 };
 
-// type ExtractLocaleKeyType = typeof localizationConfig.localization[LocaleNameType]
-
 const {
     LocalizationProvider, // provider, required as wrapper
     useLocale, // hook
@@ -52,40 +50,22 @@ const {
 function ExampleComponent(): JSX.Element {
     const {
         localeName, // LocaleNameType, in this case: 'en-US' | 'ru-RU'
-        getLocalizedString, // (stringKey: keyof typeof enUs, valueMap?: Record<string, number | string>) => string;
+        getLocalizedString, // <DICTIONARY_KEY>(stringKey: LocaleKeysType, valueMap?: Record<string, ReactNode>) => string;
         setLocaleName, // (localeName: LocaleNameType) => void
     } = useLocale();
 
-    // TS passed
-    getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: '', two: ''}); // required to pass
-    getLocalizedString<'FRIEND'>('FRIEND', {aasd: ''}); // optional
-    // getLocalizedString<'FRIEND'>('FRIEND'); // try to throw error
-    // getLocalizedString('FRIEND', {}); // optional, try to throw error
-    getLocalizedString('FRIEND'); // required to pass
-    getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: ''}); // required to pass
-    // getLocalizedString('HELLO_SMTH', {smth: ''}); // try to throw error
-    // getLocalizedString('HELLO_SMTH', {smthw: '2'}); // try to throw error
-
-    // TS error
-    // getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: <div>1</div>, two: 1}); // required to error
-    // getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {two: ''}); // required to error
-    // getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: ''}); // required to error
-    // getLocalizedString<'FRIEND'>('FRIEND', {}); // optional
-    // getLocalizedString<'FRIEND'>('FRIEND'); // optional
-    // getLocalizedString('FRIEND', {}); // optional
-    // getLocalizedString('FRIEND', {noProps: ''}); // required
-    // getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: <span>1</span>}); // required to error
-    // getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {noProp: ''}); // required to error
-    // getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: '', extraProps: ''}); // required to error
-    // getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH'); // required to error
-    // getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {noProp: <span>1</span>}); // required to error
-    // getLocalizedString('HELLO_SMTH', {smth: ''}); // optional
-    // getLocalizedString('HELLO_SMTH'); // optional
-    // getLocalizedString('HELLO', {noProp: <span>1</span>}); // optional
+    // use example
+    getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: '', two: ''}); //  pass
+    getLocalizedString<'FRIEND'>('FRIEND', {anyProperty: ''}); // pass, use 'as const' with parameters to control
+    // getLocalizedString<'FRIEND'>('FRIEND'); // throw error
+    // getLocalizedString('FRIEND', {}); // throw error
+    getLocalizedString('FRIEND'); // pass
+    // getLocalizedString('NO_EXISTS_KEY'); // throw error
+    getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: ''}); // pass
+    // getLocalizedString('HELLO_SMTH', {smth: ''}); // throw error
 
     return (
         <>
-            {/*
             <h1>Current locale: {localeName}</h1>
 
             <button onClick={() => setLocaleName('en-US')} type="button">
@@ -109,9 +89,6 @@ function ExampleComponent(): JSX.Element {
             <p>Example 4</p>
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
-*/}
-
-            {/* <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{two: '100500'}}/>*/}
         </>
     );
 }

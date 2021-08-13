@@ -1,13 +1,15 @@
 import {FC, ReactNode} from 'react';
 
-export type ExtractKeysType<ConstType, ValueType> = ConstType extends `${string}{${infer KeyName}}${infer Rest}`
-    ? ExtractKeysType<Rest, ValueType> & {[k in KeyName]: ValueType}
+type ExtractKeysValueType<ConstType, ValueType> = ConstType extends `${string}{${infer KeyName}}${infer Rest}`
+    ? ExtractKeysValueType<Rest, ValueType> & {[k in KeyName]: ValueType}
     : // eslint-disable-next-line @typescript-eslint/ban-types
       {};
 
-export type ExtractKeysStringType<ConstType> = ExtractKeysType<ConstType, string>;
+export type ExtractKeysType<ConstType> = ExtractKeysValueType<ConstType, ReactNode>;
 
-export type DefaultValuesMapType<TranslationKeys extends string> = {[key in TranslationKeys]: Record<string, string>};
+export type DefaultValuesMapType<TranslationKeys extends string> = {
+    [key in TranslationKeys]: Record<string, ReactNode>;
+};
 
 export type LocaleContextType<
     TranslationKeys extends string,
@@ -31,12 +33,17 @@ export type IsStringConstType<MayBeConstStringType> = MayBeConstStringType exten
 
 export type LocalePropsType<
     TranslationKeys extends string,
-    TextType extends TranslationKeys,
-    ValuesMapType extends DefaultValuesMapType<TranslationKeys>
-> = {
-    stringKey: TextType;
-    valueMap?: ValuesMapType[TextType];
-};
+    ValuesMapType extends DefaultValuesMapType<TranslationKeys>,
+    TextType extends TranslationKeys | void = void
+> = TextType extends TranslationKeys
+    ? {
+          stringKey: TextType;
+          valueMap?: ValuesMapType[TextType];
+      }
+    : {
+          stringKey: TranslationKeys;
+          valueMap?: void;
+      };
 
 export type LocalizationStateType<LocaleName extends string> = {
     localeName: LocaleName;
@@ -53,8 +60,8 @@ export type LocalizationLibraryType<
     LocaleName extends string,
     ValuesMapType extends DefaultValuesMapType<TranslationKeys>
 > = {
-    Locale: <TextType extends TranslationKeys>(
-        props: LocalePropsType<TranslationKeys, TextType, ValuesMapType>
+    Locale: <TextType extends TranslationKeys | void = void>(
+        props: LocalePropsType<TranslationKeys, ValuesMapType, TextType>
     ) => JSX.Element; // FC<LocalePropsType<TranslationKeys>>;
     LocalizationProvider: FC<ProviderPropsType>;
     useLocale: () => LocaleContextType<TranslationKeys, LocaleName, ValuesMapType>;
