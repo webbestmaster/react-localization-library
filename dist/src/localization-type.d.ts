@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
-declare type ExtractKeysValueType<ConstType, ValueType> = ConstType extends `${string}{${infer KeyName}}${infer Rest}` ? ExtractKeysValueType<Rest, ValueType> & {
-    [k in KeyName]: ValueType;
+declare type ExtractKeysValueType<ConstType, ValueType> = ConstType extends `${string}{${infer KeyNames}}${infer Rest}` ? ExtractKeysValueType<Rest, ValueType> & {
+    [key in KeyNames]: ValueType;
 } : {};
 export declare type ExtractKeysType<ConstType> = ExtractKeysValueType<ConstType, ReactNode>;
 export declare type DefaultValuesMapType<TranslationKeys extends string> = {

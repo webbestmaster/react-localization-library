@@ -22,7 +22,7 @@ const ruRu = {
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
-type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
+export type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 type ValuesMapType = {
     [key in LocaleKeysType]: ExtractKeysType<typeof enUs[key]> & ExtractKeysType<typeof ruRu[key]>;
@@ -41,7 +41,7 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
     },
 };
 
-const {
+export const {
     LocalizationProvider, // provider, required as wrapper
     useLocale, // hook
     Locale, // helpful component

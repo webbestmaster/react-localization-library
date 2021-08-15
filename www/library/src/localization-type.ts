@@ -1,7 +1,7 @@
 import {FC, ReactNode} from 'react';
 
-type ExtractKeysValueType<ConstType, ValueType> = ConstType extends `${string}{${infer KeyName}}${infer Rest}`
-    ? ExtractKeysValueType<Rest, ValueType> & {[k in KeyName]: ValueType}
+type ExtractKeysValueType<ConstType, ValueType> = ConstType extends `${string}{${infer KeyNames}}${infer Rest}`
+    ? ExtractKeysValueType<Rest, ValueType> & {[key in KeyNames]: ValueType}
     : // eslint-disable-next-line @typescript-eslint/ban-types
       {};
 

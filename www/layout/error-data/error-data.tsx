@@ -1,14 +1,11 @@
-/*
 import {classNames} from '../../util/css';
-
-import {LangKeyType} from '../../provider/locale/translation/type';
-// import {Locale} from '../../provider/locale/locale-context';
+import {Locale, LocaleKeysType} from '../../page/home/home';
 
 import errorDataStyle from './error-data.scss';
 
 type PropsType = {
     className?: string;
-    langKey: LangKeyType;
+    langKey: LocaleKeysType;
 };
 
 export function ErrorData(props: PropsType): JSX.Element {
@@ -16,8 +13,9 @@ export function ErrorData(props: PropsType): JSX.Element {
 
     return (
         <div className={classNames(errorDataStyle.error_data, className)}>
-            <p className={errorDataStyle.error_data__text}>{/!* <Locale stringKey={langKey} />*!/}</p>
+            <p className={errorDataStyle.error_data__text}>
+                <Locale stringKey={langKey} />
+            </p>
         </div>
     );
 }
-*/
