@@ -39,7 +39,7 @@ const ruRu = {
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
-type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
+export type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 type ValuesMapType = {
     [key in LocaleKeysType]: ExtractKeysType<typeof enUs[key]> & ExtractKeysType<typeof ruRu[key]>;
@@ -58,7 +58,7 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
     },
 };
 
-const {
+export const {
     LocalizationProvider, // provider, required as wrapper
     useLocale, // hook
     Locale, // helpful component
@@ -80,6 +80,8 @@ function ExampleComponent(): JSX.Element {
     // getLocalizedString('NO_EXISTS_KEY'); // throw error
     getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: ''}); // pass
     // getLocalizedString('HELLO_SMTH', {smth: ''}); // throw error
+
+    const someLocaleKey: LocaleKeysType = Math.random() > 0.5 ? 'HELLO' : 'FRIEND';
 
     return (
         <>
@@ -106,11 +108,13 @@ function ExampleComponent(): JSX.Element {
             <p>Example 4</p>
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
+
+            <p>Example 5: troubleshooting, use type &apos;void&apos; to suit for TypeScript</p>
+            <Locale<void> stringKey={someLocaleKey} />
         </>
     );
 }
 
-// eslint-disable-next-line react/no-multi-comp
 export function ExampleApp(): JSX.Element {
     return (
         <LocalizationProvider>

@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys, react/no-multi-comp */
+
 import {
     createLocalization,
     LocalizationConfigType,
@@ -11,6 +13,29 @@ const enUs = {
     HELLO: 'Hello',
     HELLO_SMTH: 'Hello, {smth}!' as const, // required to use with value map
     KEY_ONLY_EU_US: 'Hello, en-US!', // TS Error while using
+
+    BUTTON__YES: 'Yes',
+    BUTTON__NO: 'No',
+    BUTTON__CANCEL: 'Cancel',
+    BUTTON__CLOSE: 'Close',
+    BUTTON__SEND: 'Send',
+    BUTTON__OK: 'OK',
+    BUTTON__APPLY: 'Apply',
+    BUTTON__CONFIRM: 'Confirm',
+    BUTTON__DECLINE: 'Decline',
+    BUTTON__UPLOAD: 'Upload',
+    BUTTON__DOWNLOAD: 'Download',
+    BUTTON__SELECT: 'Select',
+    BUTTON__SELECT_A_FILE: 'Select a file',
+    BUTTON__PREVIOUS_STEP: 'Previous step',
+    BUTTON__NEXT_STEP: 'Next step',
+    BUTTON__ADD: 'Add',
+    BUTTON__CREATE: 'Create',
+    BUTTON__UPLOAD_IMAGE: 'Upload image',
+    BUTTON__UPDATE: 'Update',
+    BUTTON__UPDATE_INFO: 'Update info',
+    BUTTON__SAVE_INFORMATION: 'Save information',
+    BUTTON__COMPLETE_CREATION: 'Complete creation',
 };
 
 const ruRu = {
@@ -19,6 +44,29 @@ const ruRu = {
     HELLO: 'Привет',
     HELLO_SMTH: 'Привет, {smth}!' as const, // required to use with value map
     KEY_ONLY_RU_RU: 'Hello, ru-RU!', // TS Error while using
+
+    BUTTON__YES: 'Yes',
+    BUTTON__NO: 'No',
+    BUTTON__CANCEL: 'Cancel',
+    BUTTON__CLOSE: 'Close',
+    BUTTON__SEND: 'Send',
+    BUTTON__OK: 'OK',
+    BUTTON__APPLY: 'Apply',
+    BUTTON__CONFIRM: 'Confirm',
+    BUTTON__DECLINE: 'Decline',
+    BUTTON__UPLOAD: 'Upload',
+    BUTTON__DOWNLOAD: 'Download',
+    BUTTON__SELECT: 'Select',
+    BUTTON__SELECT_A_FILE: 'Select a file',
+    BUTTON__PREVIOUS_STEP: 'Previous step',
+    BUTTON__NEXT_STEP: 'Next step',
+    BUTTON__ADD: 'Add',
+    BUTTON__CREATE: 'Create',
+    BUTTON__UPLOAD_IMAGE: 'Upload image',
+    BUTTON__UPDATE: 'Update',
+    BUTTON__UPDATE_INFO: 'Update info',
+    BUTTON__SAVE_INFORMATION: 'Save information',
+    BUTTON__COMPLETE_CREATION: 'Complete creation',
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
@@ -64,6 +112,8 @@ function ExampleComponent(): JSX.Element {
     getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: ''}); // pass
     // getLocalizedString('HELLO_SMTH', {smth: ''}); // throw error
 
+    const someLocaleKey: LocaleKeysType = Math.random() > 0.5 ? 'HELLO' : 'FRIEND';
+
     return (
         <>
             <h1>Current locale: {localeName}</h1>
@@ -89,11 +139,13 @@ function ExampleComponent(): JSX.Element {
             <p>Example 4</p>
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
+
+            <p>Example 5: troubleshooting, use type &apos;void&apos; to suit for TypeScript</p>
+            <Locale<void> stringKey={someLocaleKey} />
         </>
     );
 }
 
-// eslint-disable-next-line react/no-multi-comp
 export function ExampleApp(): JSX.Element {
     return (
         <LocalizationProvider>
