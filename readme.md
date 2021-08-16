@@ -39,7 +39,7 @@ const ruRu = {
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
-export type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
+type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 type ValuesMapType = {
     [key in LocaleKeysType]: ExtractKeysType<typeof enUs[key]> & ExtractKeysType<typeof ruRu[key]>;
@@ -109,7 +109,7 @@ function ExampleComponent(): JSX.Element {
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
 
-            <p>Example 5: troubleshooting, use type &apos;void&apos; to suit for TypeScript</p>
+            <p>Example 5: troubleshooting, use type void to suit for TypeScript</p>
             <Locale<void> stringKey={someLocaleKey} />
         </>
     );

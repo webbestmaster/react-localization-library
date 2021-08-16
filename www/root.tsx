@@ -2,13 +2,12 @@
 
 import {render} from 'react-dom';
 
-import {selector} from './const';
-import {App} from './component/app/app';
+import {ExampleApp} from './app/example-app';
 
-const nodeWrapper = document.querySelector(selector.appWrapper);
+const nodeWrapper = document.querySelector('.js-app-wrapper');
 
 if (nodeWrapper !== null) {
-    render(<App />, nodeWrapper);
+    render(<ExampleApp />, nodeWrapper);
 } else {
     console.error('Can not find nodeWrapper');
 }

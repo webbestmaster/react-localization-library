@@ -1,6 +1,6 @@
 {
   "name": "react-localization-library",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/library.d.ts",
@@ -38,20 +38,15 @@
     "prettier": "prettier --write \"./**/*.(js|ts|tsx)\" --loglevel warn",
     "tsc": "tsc -p ./tsconfig.json",
     "tsc-library": "tsc -p ./tsconfig.library.json",
-    "ts-coverage": "typescript-coverage-report --threshold=99.95 --strict=true --project ./www/",
-    "test:e2e": "jest --config='test-e2e/config/jest.config.js' ./test-e2e/ --runInBand",
+    "ts-coverage": "typescript-coverage-report --threshold=100 --strict=true --project ./www/",
     "test:unit": "jest --config='test-unit/config/jest.config.js' ./www/ --coverage",
     "pre-commit-hook": "npm run check"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@types/react": "^17.0.18",
     "@types/react-dom": "^17.0.9",
-    "@types/react-router": "^5.1.16",
-    "@types/react-router-dom": "^5.1.8",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0"
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
@@ -110,7 +105,7 @@
     "typescript-coverage-report": "^0.6.0",
     "webpack": "^5.50.0",
     "webpack-bundle-analyzer": "^4.4.2",
-    "webpack-cli": "^4.7.2",
+    "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^3.11.2"
   }
 }
