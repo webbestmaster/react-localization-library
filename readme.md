@@ -58,7 +58,7 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
     },
 };
 
-export const {
+const {
     LocalizationProvider, // provider, required as wrapper
     useLocale, // hook
     Locale, // helpful component
@@ -96,10 +96,12 @@ function ExampleComponent(): JSX.Element {
 
             <p>Example 1</p>
             {getLocalizedString('HELLO')}
+            <br />
             {getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
 
             <p>Example 2</p>
             <Locale stringKey="HELLO" />
+            <br />
             <Locale<'HELLO_SMTH'> stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
 
             <p>Example 3</p>
@@ -107,6 +109,7 @@ function ExampleComponent(): JSX.Element {
 
             <p>Example 4</p>
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
+            <br />
             <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
 
             <p>Example 5: troubleshooting, use type void to suit for TypeScript</p>
