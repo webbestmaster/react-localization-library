@@ -7,7 +7,7 @@ const enUs = {
     FRIEND: 'friend',
     HELLO: 'Hello',
     HELLO_SMTH: 'Hello, {smth}!',
-    KEY_ONLY_EU_US: 'Hello, en-US!',
+    KEY_ONLY_EU_US: 'Hello, en-US!', // throw error when using
 };
 
 const ruRu = {
@@ -15,7 +15,7 @@ const ruRu = {
     FRIEND: 'друг',
     HELLO: 'Привет',
     HELLO_SMTH: 'Привет, {smth}!',
-    KEY_ONLY_RU_RU: 'Hello, ru-RU!',
+    KEY_ONLY_RU_RU: 'Hello, ru-RU!', // throw error when using
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
