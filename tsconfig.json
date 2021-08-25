@@ -7,7 +7,7 @@
         "module": "es2020",
         "moduleResolution": "node",
 
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "strictNullChecks": true,
         "strictFunctionTypes": true,
         "strictPropertyInitialization": true,
@@ -33,6 +33,10 @@
         "allowJs": true,
         "declaration": false,
         "experimentalDecorators": false,
+        // TODO: enable useUnknownInCatchVariables in TS 4.4
+//        "useUnknownInCatchVariables": true,
+        // TODO: enable exactOptionalPropertyTypes in TS 4.4
+//        "exactOptionalPropertyTypes": true,
         "emitDecoratorMetadata": false,
         "sourceMap": true,
     },

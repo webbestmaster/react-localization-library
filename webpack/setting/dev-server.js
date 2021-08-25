@@ -15,15 +15,15 @@ const mainProxyUrlSetting = {
 module.exports.devServer = {
     host,
     port: webpackDevServerPort,
-    contentBase: pathToDist,
+    // contentBase: pathToDist,
     historyApiFallback: {
         disableDotRule: true,
     },
     // writeToDisk: isBuildServer,
     // inline: false,
-    // hot: true,
+    hot: true,
     // hotOnly: false,
-    disableHostCheck: true,
+    // disableHostCheck: true,
     // proxy: {
     //     '/reports/': mainProxyUrlSetting,
     // },
@@ -31,19 +31,20 @@ module.exports.devServer = {
     proxy: {
         '/op/api': {
             secure: false,
-            target: 'https://cp.site.io',
+            target: 'https://my-best-web-site-ever.io',
             changeOrigin: true,
             cookieDomainRewrite: 'localhost',
             onProxyRes: proxyResponse => {
-                const {headers} = proxyResponse;
-
-                if (!headers['set-cookie']) {
-                    return;
+                if (proxyResponse.headers['set-cookie']) {
+                    // Safari doesn't pass secure cookies from localhost origin
+                    proxyResponse.headers['set-cookie'] = proxyResponse.headers['set-cookie'].map(cookie =>
+                        cookie.replace(/; secure/gi, '')
+                    );
+                    // Safari doesn't pass SameSite=None cookies from localhost origin
+                    proxyResponse.headers['set-cookie'] = proxyResponse.headers['set-cookie'].map(cookie =>
+                        cookie.replace(/; SameSite=None/gi, '; SameSite=Strict')
+                    );
                 }
-
-                headers['set-cookie'] = headers['set-cookie'].map(cookie => {
-                    return cookie.replace(/; secure/i, '').replace(/; SameSite=None/i, '; SameSite=Strict');
-                });
             },
         },
     },
