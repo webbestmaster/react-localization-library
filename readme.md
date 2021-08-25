@@ -15,35 +15,26 @@ npm i react-localization-library
 
 ## Usage
 ```typescript jsx
-import {
-    createLocalization,
-    LocalizationConfigType,
-    LocalizationStateType,
-    ExtractKeysType,
-} from 'react-localization-library';
+import {createLocalization, LocalizationConfigType, LocalizationStateType} from 'react-localization-library';
 
 const enUs = {
-    DIFFERENT_VARIABLES: 'Hello, {one}!' as const, // required to use with value map
+    DIFFERENT_VARIABLES: 'Hello, {one}!',
     FRIEND: 'friend',
     HELLO: 'Hello',
-    HELLO_SMTH: 'Hello, {smth}!' as const, // required to use with value map
-    KEY_ONLY_EU_US: 'Hello, en-US!', // TS Error while using
+    HELLO_SMTH: 'Hello, {smth}!',
+    KEY_ONLY_EU_US: 'Hello, en-US!',
 };
 
 const ruRu = {
-    DIFFERENT_VARIABLES: 'Hello, {two}!' as const, // required to use with value map
+    DIFFERENT_VARIABLES: 'Hello, {two}!',
     FRIEND: 'друг',
     HELLO: 'Привет',
-    HELLO_SMTH: 'Привет, {smth}!' as const, // required to use with value map
-    KEY_ONLY_RU_RU: 'Hello, ru-RU!', // TS Error while using
+    HELLO_SMTH: 'Привет, {smth}!',
+    KEY_ONLY_RU_RU: 'Hello, ru-RU!',
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
-
-type ValuesMapType = {
-    [key in LocaleKeysType]: ExtractKeysType<typeof enUs[key]> & ExtractKeysType<typeof ruRu[key]>;
-};
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
     defaultLocaleName: 'en-US',
@@ -62,26 +53,14 @@ const {
     LocalizationProvider, // provider, required as wrapper
     useLocale, // hook
     Locale, // helpful component
-} = createLocalization<LocaleKeysType, LocaleNameType, ValuesMapType>(localizationConfig);
+} = createLocalization<LocaleKeysType, LocaleNameType>(localizationConfig);
 
 function ExampleComponent(): JSX.Element {
     const {
         localeName, // LocaleNameType, in this case: 'en-US' | 'ru-RU'
-        getLocalizedString, // <DICTIONARY_KEY>(stringKey: LocaleKeysType, valueMap?: Record<string, ReactNode>) => string;
+        getLocalizedString, // (stringKey: LocaleKeysType, valueMap?: Record<string, string>) => string;
         setLocaleName, // (localeName: LocaleNameType) => void
     } = useLocale();
-
-    // usage example
-    getLocalizedString<'DIFFERENT_VARIABLES'>('DIFFERENT_VARIABLES', {one: '', two: ''}); //  pass
-    getLocalizedString<'FRIEND'>('FRIEND', {anyProperty: ''}); // pass, use 'as const' with parameters to control
-    // getLocalizedString<'FRIEND'>('FRIEND'); // throw error
-    // getLocalizedString('FRIEND', {}); // throw error
-    getLocalizedString('FRIEND'); // pass
-    // getLocalizedString('NO_EXISTS_KEY'); // throw error
-    getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: ''}); // pass
-    // getLocalizedString('HELLO_SMTH', {smth: ''}); // throw error
-
-    const someLocaleKey: LocaleKeysType = Math.random() > 0.5 ? 'HELLO' : 'FRIEND';
 
     return (
         <>
@@ -95,25 +74,20 @@ function ExampleComponent(): JSX.Element {
             </button>
 
             <p>Example 1</p>
-            {getLocalizedString('HELLO')}
+
+            {getLocalizedString('FRIEND')}
             <br />
-            {getLocalizedString<'HELLO_SMTH'>('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+            {getLocalizedString('HELLO_SMTH', {smth: 'type string'})}
+            <br />
+            {getLocalizedString('DIFFERENT_VARIABLES', {one: 'word 1', two: 'word 2'})}
 
             <p>Example 2</p>
-            <Locale stringKey="HELLO" />
+
+            <Locale stringKey="FRIEND" />
             <br />
-            <Locale<'HELLO_SMTH'> stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
-
-            <p>Example 3</p>
-            <Locale<'HELLO_SMTH'> stringKey="HELLO_SMTH" valueMap={{smth: '100500'}} />
-
-            <p>Example 4</p>
-            <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
+            <Locale stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
             <br />
-            <Locale<'DIFFERENT_VARIABLES'> stringKey="DIFFERENT_VARIABLES" valueMap={{one: '100500', two: '100500'}} />
-
-            <p>Example 5: troubleshooting, use type void to suit for TypeScript</p>
-            <Locale<void> stringKey={someLocaleKey} />
+            <Locale stringKey="DIFFERENT_VARIABLES" valueMap={{one: 'word 1', two: 'word 2'}} />
         </>
     );
 }

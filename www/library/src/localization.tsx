@@ -11,25 +11,20 @@ import {
 
 import {getLocalizedString as getLocalizedStringHelper} from './localization-helper';
 import {splitValueStringRegExp} from './localization-const';
-import {DefaultValuesMapType} from './localization-type';
 
-export function createLocalization<
-    TranslationKeys extends string,
-    LocaleName extends string,
-    ValuesMapType extends DefaultValuesMapType<TranslationKeys>
->(
+export function createLocalization<TranslationKeys extends string, LocaleName extends string>(
     localizationConfig: LocalizationConfigType<TranslationKeys, LocaleName>
-): LocalizationLibraryType<TranslationKeys, LocaleName, ValuesMapType> {
+): LocalizationLibraryType<TranslationKeys, LocaleName> {
     const {defaultLocaleName, localization, onUseEffect = () => null} = localizationConfig;
 
-    const defaultLocalizationData: LocaleContextType<TranslationKeys, LocaleName, ValuesMapType> = {
+    const defaultLocalizationData: LocaleContextType<TranslationKeys, LocaleName> = {
         getLocalizedString: String.toString,
         localeName: defaultLocaleName,
         setLocaleName: String.toString,
     };
 
-    const LocaleContext: Context<LocaleContextType<TranslationKeys, LocaleName, ValuesMapType>> =
-        createContext<LocaleContextType<TranslationKeys, LocaleName, ValuesMapType>>(defaultLocalizationData);
+    const LocaleContext: Context<LocaleContextType<TranslationKeys, LocaleName>> =
+        createContext<LocaleContextType<TranslationKeys, LocaleName>>(defaultLocalizationData);
 
     function LocalizationProvider(props: ProviderPropsType): JSX.Element {
         const {children} = props;
@@ -41,45 +36,32 @@ export function createLocalization<
         const memoizedSetLocaleName = useCallback((newLocaleName: LocaleName) => setLocaleName(newLocaleName), []);
 
         const getLocalizedString = useCallback(
-            <TextType extends TranslationKeys>(stringKey: TextType, valueMap?: ValuesMapType[TextType]): string =>
-                getLocalizedStringHelper<TranslationKeys, LocaleName, ValuesMapType[TextType]>(
-                    stringKey,
-                    localeName,
-                    localization,
-                    valueMap
-                ),
+            (stringKey: TranslationKeys, valueMap?: Record<string, string>): string =>
+                getLocalizedStringHelper<TranslationKeys, LocaleName>(stringKey, localeName, localization, valueMap),
             [localeName]
         );
 
-        const providedData: LocaleContextType<TranslationKeys, LocaleName, ValuesMapType> =
-            useMemo((): LocaleContextType<TranslationKeys, LocaleName, ValuesMapType> => {
-                return {
-                    getLocalizedString,
-                    localeName,
-                    setLocaleName: memoizedSetLocaleName,
-                };
-            }, [localeName, memoizedSetLocaleName, getLocalizedString]);
+        const providedData: LocaleContextType<TranslationKeys, LocaleName> = useMemo((): LocaleContextType<
+            TranslationKeys,
+            LocaleName
+        > => {
+            return {
+                getLocalizedString,
+                localeName,
+                setLocaleName: memoizedSetLocaleName,
+            };
+        }, [localeName, memoizedSetLocaleName, getLocalizedString]);
 
         return <LocaleContext.Provider value={providedData}>{children}</LocaleContext.Provider>;
     }
 
-    function Locale<TextType extends TranslationKeys | void = void>(
-        props: LocalePropsType<TranslationKeys, ValuesMapType, TextType>
-    ): JSX.Element {
+    function Locale(props: LocalePropsType<TranslationKeys>): JSX.Element {
         const {stringKey, valueMap} = props;
 
-        const {localeName} = useContext<LocaleContextType<TranslationKeys, LocaleName, ValuesMapType>>(LocaleContext);
+        const {localeName} = useContext<LocaleContextType<TranslationKeys, LocaleName>>(LocaleContext);
 
         if (!valueMap) {
-            return (
-                <>
-                    {getLocalizedStringHelper<TranslationKeys, LocaleName, ValuesMapType>(
-                        stringKey,
-                        localeName,
-                        localization
-                    )}
-                </>
-            );
+            return <>{getLocalizedStringHelper<TranslationKeys, LocaleName>(stringKey, localeName, localization)}</>;
         }
 
         const resultString = localization[localeName][stringKey]; // 'the {value1} data {value2} is {value2} here'
@@ -116,8 +98,8 @@ export function createLocalization<
         return <>{partList}</>;
     }
 
-    function useLocale(): LocaleContextType<TranslationKeys, LocaleName, ValuesMapType> {
-        return useContext<LocaleContextType<TranslationKeys, LocaleName, ValuesMapType>>(LocaleContext);
+    function useLocale(): LocaleContextType<TranslationKeys, LocaleName> {
+        return useContext<LocaleContextType<TranslationKeys, LocaleName>>(LocaleContext);
     }
 
     return {Locale, LocalizationProvider, useLocale};

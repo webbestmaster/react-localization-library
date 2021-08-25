@@ -1,5 +1,3 @@
-import {DefaultValuesMapType} from './localization-type';
-
 function replacePlaceholderMap(rawString: string, valueMap: Record<string, unknown>): string {
     let resultString = rawString;
 
@@ -13,15 +11,11 @@ function replacePlaceholderMap(rawString: string, valueMap: Record<string, unkno
     return resultString;
 }
 
-export function getLocalizedString<
-    TranslationKeys extends string,
-    LocaleName extends string,
-    ValuesMapType extends DefaultValuesMapType<TranslationKeys>
->(
+export function getLocalizedString<TranslationKeys extends string, LocaleName extends string>(
     stringKey: TranslationKeys,
     localeName: LocaleName,
     localization: Record<LocaleName, Record<TranslationKeys, string>>,
-    valueMap?: ValuesMapType
+    valueMap?: Record<string, string>
 ): string {
     const resultString = localization[localeName][stringKey];
 
