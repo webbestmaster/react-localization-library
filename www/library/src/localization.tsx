@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp */
-import {Context, createContext, Fragment, useCallback, useContext, useEffect, useMemo, useState} from 'react';
+import {Context, createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 
 import {
     LocaleContextType,
@@ -9,8 +9,7 @@ import {
     ProviderPropsType,
 } from '../library';
 
-import {getLocalizedString as getLocalizedStringHelper} from './localization-helper';
-import {splitValueStringRegExp} from './localization-const';
+import {getLocalizedComponentHelper, getLocalizedString as getLocalizedStringHelper} from './localization-helper';
 
 export function createLocalization<TranslationKeys extends string, LocaleName extends string>(
     localizationConfig: LocalizationConfigType<TranslationKeys, LocaleName>
@@ -60,42 +59,20 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
 
         const {localeName} = useContext<LocaleContextType<TranslationKeys, LocaleName>>(LocaleContext);
 
-        if (!valueMap) {
-            return <>{getLocalizedStringHelper<TranslationKeys, LocaleName>(stringKey, localeName, localization)}</>;
+        if (valueMap) {
+            return (
+                <>
+                    {getLocalizedComponentHelper<TranslationKeys, LocaleName>(
+                        stringKey,
+                        localeName,
+                        localization,
+                        valueMap
+                    )}
+                </>
+            );
         }
 
-        const resultString = localization[localeName][stringKey]; // 'the {value1} data {value2} is {value2} here'
-
-        let partList: Array<JSX.Element | string> = resultString.split(splitValueStringRegExp); // ["the ", "{value1} data ", "{value2} is ", "{value2} here"]
-
-        const keyList = Object.keys(valueMap);
-
-        // eslint-disable-next-line no-loops/no-loops
-        for (const objectKey of keyList) {
-            partList = partList.map((part: JSX.Element | string, index: number): JSX.Element | string => {
-                if (typeof part !== 'string') {
-                    return part;
-                }
-
-                const replacedPart = '{' + objectKey + '}';
-
-                if (!part.startsWith(replacedPart)) {
-                    return part;
-                }
-
-                const endOfString = part.slice(replacedPart.length);
-
-                return (
-                    <Fragment key={String(objectKey + '-' + index)}>
-                        {valueMap[objectKey]}
-                        {endOfString}
-                    </Fragment>
-                );
-            });
-        }
-
-        // eslint-disable-next-line react/jsx-no-useless-fragment
-        return <>{partList}</>;
+        return <>{getLocalizedStringHelper<TranslationKeys, LocaleName>(stringKey, localeName, localization)}</>;
     }
 
     function useLocale(): LocaleContextType<TranslationKeys, LocaleName> {
