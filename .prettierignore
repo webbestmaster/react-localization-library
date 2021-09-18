@@ -11,5 +11,6 @@ node_modules
 /dist
 
 # report
-/coverage-ts
-/tsc-check
+/coverage-ts/
+/tsc-check/
+/coverage/

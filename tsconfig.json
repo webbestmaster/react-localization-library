@@ -41,8 +41,8 @@
         "sourceMap": true,
     },
     "exclude": [
-        "./dist",
+        "./dist/",
         "./tsc-check/",
-        "node_modules",
+        "./node_modules/",
     ]
 }

@@ -3,6 +3,7 @@ const path = require('path');
 const {
     pathToStaticFileFolder,
     isDevelopment,
+    isProduction,
     pathToDist,
     cwd,
     nodeEnvironment,
@@ -67,6 +68,12 @@ const webpackConfigBuildLibrary = {
             commonjs2: 'react-dom',
             amd: 'ReactDOM',
             root: 'ReactDOM',
+        },
+        'react-router-dom': {
+            commonjs: 'react-router-dom',
+            commonjs2: 'react-router-dom',
+            amd: 'ReactRouterDOM',
+            root: 'ReactRouterDOM',
         },
     },
 };

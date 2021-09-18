@@ -2,10 +2,10 @@
 /dist/
 
 # npm
-node_modules
+/node_modules/
 
 # webpack
-/webpack
+/webpack/
 /webpack.config.js
 
 # report

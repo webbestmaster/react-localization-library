@@ -55,6 +55,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
     }
 
     function Locale(props: LocalePropsType<TranslationKeys>): JSX.Element {
+        // eslint-disable-next-line react/prop-types
         const {stringKey, valueMap} = props;
 
         const {localeName} = useContext<LocaleContextType<TranslationKeys, LocaleName>>(LocaleContext);
