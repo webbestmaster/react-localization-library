@@ -1,6 +1,12 @@
 import {Fragment, ReactNode} from 'react';
 
 import {splitValueStringRegExp} from './localization-const';
+import {
+    LocalizationDataType,
+    // LocalizationDataLoaderType,
+    LocalizationType,
+    RawLocalizationDataType,
+} from './localization-type';
 
 function replacePlaceholderMap(rawString: string, valueMap: Record<string, string>): string {
     let resultString = rawString;
@@ -18,10 +24,16 @@ function replacePlaceholderMap(rawString: string, valueMap: Record<string, strin
 export function getLocalizedString<TranslationKeys extends string, LocaleName extends string>(
     stringKey: TranslationKeys,
     localeName: LocaleName,
-    localization: Record<LocaleName, Record<TranslationKeys, string>>,
+    localization: LocalizationDataType<TranslationKeys>,
     valueMap?: Record<string, string>
 ): string {
-    const resultString = localization[localeName][stringKey];
+    // const localizationData = localization[localeName];
+
+    // if (typeof localizationData === 'function') {
+    //     return 'TEXT';
+    // }
+
+    const resultString = localization[stringKey];
 
     return valueMap ? replacePlaceholderMap(resultString, valueMap) : resultString;
 }
@@ -29,10 +41,10 @@ export function getLocalizedString<TranslationKeys extends string, LocaleName ex
 export function getLocalizedComponentHelper<TranslationKeys extends string, LocaleName extends string>(
     stringKey: TranslationKeys,
     localeName: LocaleName,
-    localization: Record<LocaleName, Record<TranslationKeys, string>>,
+    localization: LocalizationDataType<TranslationKeys>,
     valueMap: Record<string, ReactNode>
 ): Array<JSX.Element | string> {
-    const resultString = localization[localeName][stringKey]; // 'the {value1} data {value2} is {value2} here'
+    const resultString = localization[stringKey]; // 'the {value1} data {value2} is {value2} here'
 
     let partList: Array<JSX.Element | string> = resultString.split(splitValueStringRegExp); // ["the ", "{value1} data ", "{value2} is ", "{value2} here"]
 
@@ -63,4 +75,17 @@ export function getLocalizedComponentHelper<TranslationKeys extends string, Loca
     }
 
     return partList;
+}
+
+export function fetchLocalizationData<LocaleName extends string, TranslationKeys extends string>(
+    localeName: LocaleName,
+    localization: LocalizationType<LocaleName, TranslationKeys>
+): Promise<LocalizationDataType<TranslationKeys>> {
+    const localizationData: RawLocalizationDataType<TranslationKeys> = localization[localeName];
+
+    if (typeof localizationData === 'function') {
+        return localizationData();
+    }
+
+    return Promise.resolve(localizationData);
 }

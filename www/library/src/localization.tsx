@@ -9,15 +9,43 @@ import {
     ProviderPropsType,
 } from '../library';
 
-import {getLocalizedComponentHelper, getLocalizedString as getLocalizedStringHelper} from './localization-helper';
+import {
+    fetchLocalizationData,
+    getLocalizedComponentHelper,
+    getLocalizedString as getLocalizedStringHelper,
+} from './localization-helper';
+import {
+    LocalizationDataType,
+    // LocalizationDataLoaderType,
+    LocalizationType,
+    RawLocalizationDataType,
+} from './localization-type';
+import {placeholderText} from './localization-const';
 
 export function createLocalization<TranslationKeys extends string, LocaleName extends string>(
     localizationConfig: LocalizationConfigType<TranslationKeys, LocaleName>
 ): LocalizationLibraryType<TranslationKeys, LocaleName> {
-    const {defaultLocaleName, localization, onUseEffect = () => null} = localizationConfig;
+    const {defaultLocaleName, localization: localizationArgument, onUseEffect = () => null} = localizationConfig;
+    let previousLocalizationName: LocaleName = defaultLocaleName;
+
+    const localization: LocalizationType<LocaleName, TranslationKeys> = {...localizationArgument};
+
+    // for (const key in localization) {
+    //     const localizationData: LocalizationDataType<TranslationKeys> | LocalizationDataLoaderType<TranslationKeys> = localization[key];
+    //
+    //     localeNameMap[key] = typeof localizationData !== 'function' ? null : localizationData;
+    // }
+
+    // const localizationMap: Record<LocaleName, null> = Object.fromEntries<Record<LocaleName, null>>(localeNameList);
+
+    // console.log(localeNameList, localizationMap);
+
+    // const localizationMap: Record<LocaleName, null> = Object
+    //     .fromEntries<null>(Object.keys(localization).map((key: LocaleName) => [key, null]))
 
     const defaultLocalizationData: LocaleContextType<TranslationKeys, LocaleName> = {
         getLocalizedString: String.toString,
+        isFetchingLocaleData: false,
         localeName: defaultLocaleName,
         setLocaleName: String.toString,
     };
@@ -29,15 +57,76 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
         const {children} = props;
 
         const [localeName, setLocaleName] = useState<LocaleName>(defaultLocaleName);
+        const [isFetchingLocaleData, setIsFetchingLocaleData] = useState<boolean>(false);
 
-        useEffect(() => onUseEffect({localeName}), [localeName]);
+        useEffect(() => {
+            const existsLocalizationData: RawLocalizationDataType<TranslationKeys> = localization[localeName];
+
+            // check localization data already exists
+            if (typeof existsLocalizationData !== 'function') {
+                previousLocalizationName = localeName;
+                onUseEffect({isFetchingLocaleData: false, localeName});
+                return;
+            }
+
+            setIsFetchingLocaleData(true);
+            onUseEffect({isFetchingLocaleData: true, localeName: previousLocalizationName});
+
+            fetchLocalizationData<LocaleName, TranslationKeys>(localeName, localization)
+                .then((localizationData: LocalizationDataType<TranslationKeys>) => {
+                    localization[localeName] = localizationData;
+                    previousLocalizationName = localeName;
+
+                    onUseEffect({isFetchingLocaleData: false, localeName});
+                })
+                .finally((): void => {
+                    setIsFetchingLocaleData(false);
+                })
+                .catch((): void => {
+                    console.error('Can not load localization');
+                });
+        }, [localeName, setIsFetchingLocaleData]);
 
         const memoizedSetLocaleName = useCallback((newLocaleName: LocaleName) => setLocaleName(newLocaleName), []);
 
         const getLocalizedString = useCallback(
-            (stringKey: TranslationKeys, valueMap?: Record<string, string>): string =>
-                getLocalizedStringHelper<TranslationKeys, LocaleName>(stringKey, localeName, localization, valueMap),
-            [localeName]
+            (stringKey: TranslationKeys, valueMap?: Record<string, string>): string => {
+                const existsLocalizationData: RawLocalizationDataType<TranslationKeys> = localization[localeName];
+                const previousLocalizationData: RawLocalizationDataType<TranslationKeys> =
+                    localization[previousLocalizationName];
+
+                if (isFetchingLocaleData && typeof previousLocalizationData !== 'function') {
+                    return getLocalizedStringHelper<TranslationKeys, LocaleName>(
+                        stringKey,
+                        localeName,
+                        previousLocalizationData,
+                        valueMap
+                    );
+                }
+
+                if (typeof existsLocalizationData !== 'function') {
+                    return getLocalizedStringHelper<TranslationKeys, LocaleName>(
+                        stringKey,
+                        localeName,
+                        existsLocalizationData,
+                        valueMap
+                    );
+                }
+
+                if (typeof previousLocalizationData !== 'function') {
+                    return getLocalizedStringHelper<TranslationKeys, LocaleName>(
+                        stringKey,
+                        localeName,
+                        previousLocalizationData,
+                        valueMap
+                    );
+                }
+
+                console.error('There is no localization data, return string');
+
+                return placeholderText;
+            },
+            [localeName, isFetchingLocaleData]
         );
 
         const providedData: LocaleContextType<TranslationKeys, LocaleName> = useMemo((): LocaleContextType<
@@ -46,34 +135,55 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
         > => {
             return {
                 getLocalizedString,
+                isFetchingLocaleData,
                 localeName,
                 setLocaleName: memoizedSetLocaleName,
             };
-        }, [localeName, memoizedSetLocaleName, getLocalizedString]);
+        }, [localeName, memoizedSetLocaleName, getLocalizedString, isFetchingLocaleData]);
 
         return <LocaleContext.Provider value={providedData}>{children}</LocaleContext.Provider>;
     }
 
     function Locale(props: LocalePropsType<TranslationKeys>): JSX.Element {
         // eslint-disable-next-line react/prop-types
-        const {stringKey, valueMap} = props;
+        const {stringKey, valueMap = {}} = props;
 
         const {localeName} = useContext<LocaleContextType<TranslationKeys, LocaleName>>(LocaleContext);
 
-        if (valueMap) {
+        const existsLocalizationData: RawLocalizationDataType<TranslationKeys> = localization[localeName];
+        const previousLocalizationData: RawLocalizationDataType<TranslationKeys> =
+            localization[previousLocalizationName];
+
+        if (typeof existsLocalizationData !== 'function') {
             return (
                 <>
                     {getLocalizedComponentHelper<TranslationKeys, LocaleName>(
                         stringKey,
                         localeName,
-                        localization,
+                        existsLocalizationData,
                         valueMap
                     )}
                 </>
             );
         }
 
-        return <>{getLocalizedStringHelper<TranslationKeys, LocaleName>(stringKey, localeName, localization)}</>;
+        if (typeof previousLocalizationData !== 'function') {
+            return (
+                <>
+                    {getLocalizedComponentHelper<TranslationKeys, LocaleName>(
+                        stringKey,
+                        localeName,
+                        previousLocalizationData,
+                        valueMap
+                    )}
+                </>
+            );
+        }
+
+        console.error('There is no localization data, return jsx');
+
+        // eslint-disable-next-line react/jsx-no-useless-fragment
+        return <>{placeholderText}</>;
     }
 
     function useLocale(): LocaleContextType<TranslationKeys, LocaleName> {

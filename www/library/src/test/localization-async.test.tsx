@@ -1,12 +1,12 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
-/* global describe, test, expect */
+/* global describe, test, expect, setTimeout */
 
 import {useEffect} from 'react';
 
 import {render} from '@testing-library/react';
 
-import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../library';
+import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library';
 
 const enUs = {
     FRIEND: 'friend',
@@ -24,7 +24,7 @@ const ruRu = {
     HELLO_WORLD: 'Привет, Мир!',
 };
 
-type LocaleNameType = 'en-US' | 'ru-RU';
+type LocaleNameType = 'en-US' | 'ru-RU' | 'sv-SE';
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
@@ -32,10 +32,17 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
     localization: {
         'en-US': enUs,
         'ru-RU': ruRu,
+        'sv-SE': async () => {
+            await new Promise((resolve: (value: unknown) => void) => setTimeout(resolve, 100));
+
+            const {svSE} = await import('./sv-se');
+
+            return svSE;
+        },
     },
 };
 
-describe('Localization', () => {
+describe('Localization Async', () => {
     test('localization provider', () => {
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
