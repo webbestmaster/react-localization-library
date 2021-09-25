@@ -22,9 +22,10 @@ const enUs = {
     FRIEND: 'friend',
     HELLO: 'Hello',
     HELLO_SMTH: 'Hello, {smth}!',
-    KEY_ONLY_EU_US: 'Hello, en-US!', // throw error when using
+    // KEY_ONLY_EU_US: 'Hello, en-US!', // throw error when using
 };
 
+/*
 const ruRu = {
     DIFFERENT_VARIABLES: 'Hello, {two}!',
     FRIEND: 'друг',
@@ -32,15 +33,20 @@ const ruRu = {
     HELLO_SMTH: 'Привет, {smth}!',
     KEY_ONLY_RU_RU: 'Hello, ru-RU!', // throw error when using
 };
+*/
 
 type LocaleNameType = 'en-US' | 'ru-RU';
-type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
+type LocaleKeysType = keyof typeof enUs; // & keyof typeof ruRu;
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
     defaultLocaleName: 'en-US',
     localization: {
         'en-US': enUs,
-        'ru-RU': ruRu,
+        'ru-RU': async () => {
+            const {ruRu} = await import('./ru-ru');
+
+            return ruRu;
+        },
     },
     onUseEffect: (data: LocalizationStateType<LocaleNameType>) => {
         const {localeName: newLocaleName} = data;
@@ -58,6 +64,7 @@ const {
 function ExampleComponent(): JSX.Element {
     const {
         localeName, // LocaleNameType, in this case: 'en-US' | 'ru-RU'
+        isFetchingLocaleData, // boolean
         getLocalizedString, // (stringKey: LocaleKeysType, valueMap?: Record<string, string>) => string;
         setLocaleName, // (localeName: LocaleNameType) => void
     } = useLocale();
@@ -65,6 +72,7 @@ function ExampleComponent(): JSX.Element {
     return (
         <>
             <h1>Current locale: {localeName}</h1>
+            <h2>Localization data is fetching: {isFetchingLocaleData ? 'Yes' : 'No'}</h2>
 
             <button onClick={() => setLocaleName('en-US')} type="button">
                 use en-US

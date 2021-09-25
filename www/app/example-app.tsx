@@ -1,4 +1,3 @@
-/* global setTimeout */
 /* eslint-disable sort-keys, react/no-multi-comp */
 
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../library/library';
@@ -27,20 +26,8 @@ type LocaleKeysType = keyof typeof enUs; // & keyof typeof ruRu;
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
     defaultLocaleName: 'en-US',
     localization: {
-        'en-US': async () => {
-            await new Promise((resolve: (value: unknown) => void) => {
-                setTimeout(resolve, 3e3);
-            });
-
-            // const {ruRu} = await import('./ru-ru');
-
-            return enUs;
-        },
+        'en-US': enUs,
         'ru-RU': async () => {
-            await new Promise((resolve: (value: unknown) => void) => {
-                setTimeout(resolve, 3e3);
-            });
-
             const {ruRu} = await import('./ru-ru');
 
             return ruRu;
