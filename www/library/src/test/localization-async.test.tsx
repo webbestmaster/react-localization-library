@@ -169,7 +169,7 @@ describe('Localization async', () => {
         unmount();
     });
 
-    test.skip('localization provider - on useEffect async', () => {
+    test('localization provider - on useEffect async', async () => {
         let testingLocaleName: LocaleNameType = 'en-US';
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
@@ -184,11 +184,13 @@ describe('Localization async', () => {
 
         // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
-            const {setLocaleName} = useLocale();
+            const {setLocaleName, isFetchingLocaleData, localeName} = useLocale();
 
             useEffect(() => {
-                setLocaleName('ru-RU');
-            }, [setLocaleName]);
+                if (!isFetchingLocaleData && localeName !== 'ru-RU') {
+                    setLocaleName('ru-RU');
+                }
+            }, [setLocaleName, isFetchingLocaleData, localeName]);
 
             return <div />;
         }
@@ -199,7 +201,7 @@ describe('Localization async', () => {
             </LocalizationProvider>
         );
 
-        expect(testingLocaleName).toEqual('ru-RU');
+        await waitFor(() => expect(testingLocaleName).toEqual('ru-RU'), {interval: 50, timeout: 250});
 
         unmount();
     });
