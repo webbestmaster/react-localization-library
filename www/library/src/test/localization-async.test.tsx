@@ -8,6 +8,7 @@ import {render, waitFor} from '@testing-library/react';
 
 import {waitForTime} from '../../../../test-unit/util';
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library';
+import {fetchLocalizationData} from '../localization-helper';
 
 const enUs = {
     FRIEND: 'friend',
@@ -41,13 +42,6 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
 
             return ruRu;
         },
-        // 'sv-SE': async () => {
-        //     await waitForTime(100);
-        //
-        //     const {svSE} = await import('./sv-se');
-        //
-        //     return svSE;
-        // },
     },
 };
 
@@ -337,5 +331,22 @@ describe('Localization async', () => {
         );
 
         unmount();
+    });
+
+    test('localization helper - fetchLocalizationData', async () => {
+        const localizationConfigSync: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
+            defaultLocaleName: 'en-US',
+            localization: {
+                'en-US': enUs,
+                'ru-RU': ruRu,
+            },
+        };
+
+        const localizationData = await fetchLocalizationData<LocaleNameType, LocaleKeysType>(
+            'ru-RU',
+            localizationConfigSync.localization
+        );
+
+        expect(localizationData).toEqual(ruRu);
     });
 });
