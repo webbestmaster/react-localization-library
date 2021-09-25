@@ -27,7 +27,15 @@ type LocaleKeysType = keyof typeof enUs; // & keyof typeof ruRu;
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
     defaultLocaleName: 'en-US',
     localization: {
-        'en-US': enUs,
+        'en-US': async () => {
+            await new Promise((resolve: (value: unknown) => void) => {
+                setTimeout(resolve, 3e3);
+            });
+
+            // const {ruRu} = await import('./ru-ru');
+
+            return enUs;
+        },
         'ru-RU': async () => {
             await new Promise((resolve: (value: unknown) => void) => {
                 setTimeout(resolve, 3e3);

@@ -1,11 +1,12 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
-/* global describe, test, expect, setTimeout */
+/* global describe, test, expect */
 
 import {useEffect} from 'react';
 
-import {render} from '@testing-library/react';
+import {render, waitFor} from '@testing-library/react';
 
+import {waitForTime} from '../../../../test-unit/util';
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library';
 
 const enUs = {
@@ -24,33 +25,47 @@ const ruRu = {
     HELLO_WORLD: 'Привет, Мир!',
 };
 
-type LocaleNameType = 'en-US' | 'ru-RU' | 'sv-SE';
+type LocaleNameType = 'en-US' | 'ru-RU';
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
     defaultLocaleName: 'en-US',
     localization: {
-        'en-US': enUs,
-        'ru-RU': ruRu,
-        'sv-SE': async () => {
-            await new Promise((resolve: (value: unknown) => void) => setTimeout(resolve, 100));
+        'en-US': async () => {
+            await waitForTime(100);
 
-            const {svSE} = await import('./sv-se');
-
-            return svSE;
+            return enUs;
         },
+        'ru-RU': async () => {
+            await waitForTime(100);
+
+            return ruRu;
+        },
+        // 'sv-SE': async () => {
+        //     await waitForTime(100);
+        //
+        //     const {svSE} = await import('./sv-se');
+        //
+        //     return svSE;
+        // },
     },
 };
 
-describe('Localization Async', () => {
-    test('localization provider', () => {
+describe('Localization async', () => {
+    test('localization provider async', async () => {
+        let isFetchingLocaleDataExternal = false;
+
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
 
         // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
-            const {localeName, getLocalizedString} = useLocale();
+            const {localeName, getLocalizedString, isFetchingLocaleData} = useLocale();
+
+            useEffect(() => {
+                isFetchingLocaleDataExternal = isFetchingLocaleData;
+            }, [isFetchingLocaleData]);
 
             return (
                 <div>
@@ -74,6 +89,9 @@ describe('Localization Async', () => {
         const helloNode = container.querySelector('.hello');
         const helloSmthNode = container.querySelector('.hello-smth');
         const helloWorldNode = container.querySelector('.hello-world');
+
+        expect(isFetchingLocaleDataExternal).toEqual(true);
+        await waitFor(() => expect(isFetchingLocaleDataExternal).toEqual(false), {interval: 50, timeout: 150});
 
         expect(localeNameNode?.innerHTML).toEqual('en-US');
         expect(helloNode?.innerHTML).toEqual('Hello');
@@ -83,18 +101,28 @@ describe('Localization Async', () => {
         unmount();
     });
 
-    test('localization provider - change locale name', () => {
+    test('localization provider - change locale name async', async () => {
+        let localeNameExternal: LocaleNameType = localizationConfig.defaultLocaleName;
+        let isFetchingLocaleDataExternal = false;
+
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
 
         // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
-            const {localeName, setLocaleName, getLocalizedString} = useLocale();
+            const {localeName, setLocaleName, getLocalizedString, isFetchingLocaleData} = useLocale();
 
             useEffect(() => {
-                setLocaleName('ru-RU');
-            }, [setLocaleName]);
+                isFetchingLocaleDataExternal = isFetchingLocaleData;
+            }, [isFetchingLocaleData]);
+
+            useEffect(() => {
+                if (!isFetchingLocaleData && localeName !== 'ru-RU') {
+                    setLocaleName('ru-RU');
+                    localeNameExternal = 'ru-RU';
+                }
+            }, [setLocaleName, isFetchingLocaleData, localeName]);
 
             return (
                 <div>
@@ -114,10 +142,24 @@ describe('Localization Async', () => {
             </LocalizationProvider>
         );
 
+        await waitFor(
+            () => {
+                expect(localeNameExternal).toEqual('ru-RU');
+                expect(isFetchingLocaleDataExternal).toEqual(false);
+            },
+            {
+                interval: 50,
+                timeout: 500,
+            }
+        );
+
         const localeNameNode = container.querySelector('.locale-name');
         const helloNode = container.querySelector('.hello');
         const helloSmthNode = container.querySelector('.hello-smth');
         const helloWorldNode = container.querySelector('.hello-world');
+
+        await waitFor(() => expect(localeNameExternal).toEqual('ru-RU'), {interval: 50, timeout: 150});
+        await waitFor(() => expect(isFetchingLocaleDataExternal).toEqual(false), {interval: 50, timeout: 150});
 
         expect(localeNameNode?.innerHTML).toEqual('ru-RU');
         expect(helloNode?.innerHTML).toEqual('Привет');
@@ -127,7 +169,7 @@ describe('Localization Async', () => {
         unmount();
     });
 
-    test('localization provider - on useEffect', () => {
+    test.skip('localization provider - on useEffect async', () => {
         let testingLocaleName: LocaleNameType = 'en-US';
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
@@ -162,7 +204,7 @@ describe('Localization Async', () => {
         unmount();
     });
 
-    test('locale', () => {
+    test.skip('locale async', () => {
         const {LocalizationProvider, useLocale, Locale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );

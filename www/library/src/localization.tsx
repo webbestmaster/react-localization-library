@@ -45,7 +45,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
 
     const defaultLocalizationData: LocaleContextType<TranslationKeys, LocaleName> = {
         getLocalizedString: String.toString,
-        isFetchingLocaleData: false,
+        isFetchingLocaleData: typeof localization[defaultLocaleName] === 'function',
         localeName: defaultLocaleName,
         setLocaleName: String.toString,
     };
@@ -56,8 +56,10 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
     function LocalizationProvider(props: ProviderPropsType): JSX.Element {
         const {children} = props;
 
-        const [localeName, setLocaleName] = useState<LocaleName>(defaultLocaleName);
-        const [isFetchingLocaleData, setIsFetchingLocaleData] = useState<boolean>(false);
+        const [localeName, setLocaleName] = useState<LocaleName>(defaultLocalizationData.localeName);
+        const [isFetchingLocaleData, setIsFetchingLocaleData] = useState<boolean>(
+            defaultLocalizationData.isFetchingLocaleData
+        );
 
         useEffect(() => {
             const existsLocalizationData: RawLocalizationDataType<TranslationKeys> = localization[localeName];
@@ -72,6 +74,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
             setIsFetchingLocaleData(true);
             onUseEffect({isFetchingLocaleData: true, localeName: previousLocalizationName});
 
+            // eslint-disable-next-line promise/catch-or-return
             fetchLocalizationData<LocaleName, TranslationKeys>(localeName, localization)
                 .then((localizationData: LocalizationDataType<TranslationKeys>) => {
                     localization[localeName] = localizationData;
@@ -81,13 +84,19 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
                 })
                 .finally((): void => {
                     setIsFetchingLocaleData(false);
-                })
-                .catch((): void => {
-                    console.error('Can not load localization');
                 });
         }, [localeName, setIsFetchingLocaleData]);
 
-        const memoizedSetLocaleName = useCallback((newLocaleName: LocaleName) => setLocaleName(newLocaleName), []);
+        const memoizedSetLocaleName = useCallback(
+            (newLocaleName: LocaleName) => {
+                if (isFetchingLocaleData) {
+                    console.log('do not change locale name while localizing data loading');
+                    return;
+                }
+                setLocaleName(newLocaleName);
+            },
+            [isFetchingLocaleData]
+        );
 
         const getLocalizedString = useCallback(
             (stringKey: TranslationKeys, valueMap?: Record<string, string>): string => {
@@ -122,7 +131,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
                     );
                 }
 
-                console.error('There is no localization data, return string');
+                console.log('There is no localization data, return string');
 
                 return placeholderText;
             },
@@ -180,7 +189,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
             );
         }
 
-        console.error('There is no localization data, return jsx');
+        console.log('There is no localization data, return jsx');
 
         // eslint-disable-next-line react/jsx-no-useless-fragment
         return <>{placeholderText}</>;

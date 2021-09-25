@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
-/* global describe, test, expect, setTimeout */
+/* global describe, test, expect */
 
 import {useEffect} from 'react';
 
@@ -24,7 +24,7 @@ const ruRu = {
     HELLO_WORLD: 'Привет, Мир!',
 };
 
-type LocaleNameType = 'en-US' | 'ru-RU' | 'sv-SE';
+type LocaleNameType = 'en-US' | 'ru-RU';
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
@@ -32,13 +32,6 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
     localization: {
         'en-US': enUs,
         'ru-RU': ruRu,
-        'sv-SE': async () => {
-            await new Promise((resolve: (value: unknown) => void) => setTimeout(resolve, 100));
-
-            const {svSE} = await import('./sv-se');
-
-            return svSE;
-        },
     },
 };
 
