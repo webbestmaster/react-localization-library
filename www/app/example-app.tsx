@@ -1,5 +1,7 @@
 /* eslint-disable sort-keys, react/no-multi-comp */
 
+import {StrictMode} from 'react';
+
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../library/library';
 
 const enUs = {
@@ -87,8 +89,10 @@ function ExampleComponent(): JSX.Element {
 
 export function ExampleApp(): JSX.Element {
     return (
-        <LocalizationProvider>
-            <ExampleComponent />
-        </LocalizationProvider>
+        <StrictMode>
+            <LocalizationProvider>
+                <ExampleComponent />
+            </LocalizationProvider>
+        </StrictMode>
     );
 }
