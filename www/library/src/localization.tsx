@@ -21,6 +21,7 @@ import {
     RawLocalizationDataType,
 } from './localization-type';
 import {placeholderText} from './localization-const';
+import {waitForTime} from './util/timer';
 
 export function createLocalization<TranslationKeys extends string, LocaleName extends string>(
     localizationConfig: LocalizationConfigType<TranslationKeys, LocaleName>
@@ -77,10 +78,15 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
             // eslint-disable-next-line promise/catch-or-return
             fetchLocalizationData<LocaleName, TranslationKeys>(localeName, localization)
                 .then((localizationData: LocalizationDataType<TranslationKeys>) => {
-                    localization[localeName] = localizationData;
-                    previousLocalizationName = localeName;
+                    // Make sure that React's circle is updated
+                    // needed to update async locale
+                    // eslint-disable-next-line promise/no-nesting
+                    return waitForTime(0).then(() => {
+                        localization[localeName] = localizationData;
+                        previousLocalizationName = localeName;
 
-                    onUseEffect({isFetchingLocaleData: false, localeName});
+                        onUseEffect({isFetchingLocaleData: false, localeName});
+                    });
                 })
                 .finally((): void => {
                     setIsFetchingLocaleData(false);
