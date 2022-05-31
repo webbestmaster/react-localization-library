@@ -263,13 +263,21 @@ describe('Localization async', () => {
             }
         );
 
-        const helloNode = container.querySelector('.hello');
-        const helloSmthNode = container.querySelector('.hello-smth');
-        const helloHardNode = container.querySelector('.hello-hard');
+        await waitFor(
+            () => {
+                const helloNode = container.querySelector('.hello');
+                const helloSmthNode = container.querySelector('.hello-smth');
+                const helloHardNode = container.querySelector('.hello-hard');
 
-        expect(helloNode?.innerHTML).toEqual('Привет');
-        expect(helloSmthNode?.innerHTML).toEqual('Привет, <span>друг</span>!');
-        expect(helloHardNode?.innerHTML).toEqual('эти value-1 данные value-2 есть value-2 здесь');
+                expect(helloNode?.innerHTML).toEqual('Привет');
+                expect(helloSmthNode?.innerHTML).toEqual('Привет, <span>друг</span>!');
+                expect(helloHardNode?.innerHTML).toEqual('эти value-1 данные value-2 есть value-2 здесь');
+            },
+            {
+                interval: 50,
+                timeout: 300,
+            }
+        );
 
         unmount();
     });
