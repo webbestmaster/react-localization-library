@@ -192,7 +192,7 @@ describe('Localization async', () => {
             </LocalizationProvider>
         );
 
-        await waitFor(() => expect(testingLocaleName).toEqual('ru-RU'), {interval: 50, timeout: 300});
+        await waitFor(() => expect(testingLocaleName).toEqual('ru-RU'), {interval: 50, timeout: 1000});
 
         unmount();
     });
