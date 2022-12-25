@@ -31,10 +31,10 @@ const configFront = {
         path: path.join(cwd, pathToDist),
         publicPath: isDevelopment ? '/' : pathToStaticFileFolder,
         filename: isDevelopment ? '[name].js' : 'index.js',
-        chunkFilename: isDevelopment ? '[name].chunk.js' : '[name].[fullhash:6].chunk.js',
+        chunkFilename: isDevelopment ? '[name].chunk.js' : '[name].[hash:6].chunk.js',
         assetModuleFilename: isDevelopment
-            ? 'build-asset/[name]----[fullhash:6][ext][query]'
-            : 'build-asset/[fullhash:6][ext][query]',
+            ? 'build-asset/[name]----[hash:6][ext][query]'
+            : 'build-asset/[hash:6][ext][query]',
     },
 
     mode: nodeEnvironment,
