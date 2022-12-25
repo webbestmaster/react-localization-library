@@ -26,11 +26,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
-#    - run: npm i @types/react
-#    - run: npm i @types/react-dom
+    - run: npm i @types/react
+    - run: npm i @types/react-dom
     - run: npm i react
     - run: npm i react-dom
+    - run: npm install
 
     - run: npm run front:build
     - run: npm run front:build-library
