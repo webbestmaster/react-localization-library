@@ -8,12 +8,12 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/webbestmaster/react-localization-library/github-ci.yml)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-localization-library)
 ![node-current](https://img.shields.io/node/v/react-localization-library)
-[![Website](https://img.shields.io/website?url=http%3A%2F%2Fwebbestmaster.github.io%2F)](https://webbestmaster.github.io/)
 ![npm type definitions](https://img.shields.io/npm/types/react-localization-library)
 [![GitHub stars](https://img.shields.io/github/stars/webbestmaster/react-localization-library?style=social)](https://github.com/webbestmaster/react-localization-library/)
+<!--[![Website](https://img.shields.io/website?url=http%3A%2F%2Fwebbestmaster.github.io%2F)](https://webbestmaster.github.io/) -->
 <!-- ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/webbestmaster/react-localization-library) -->
 
-Localization hook and component.
+React localization hooks and components.
 
 ## Install
 
