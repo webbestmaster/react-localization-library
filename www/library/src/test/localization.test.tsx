@@ -1,10 +1,11 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
-/* global describe, test, expect */
+import assert from 'node:assert/strict';
 
 import {useEffect} from 'react';
 
 import {render} from '@testing-library/react';
+import {describe, test} from '@jest/globals';
 
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library';
 
@@ -68,10 +69,10 @@ describe('Localization', () => {
         const helloSmthNode = container.querySelector('.hello-smth');
         const helloWorldNode = container.querySelector('.hello-world');
 
-        expect(localeNameNode?.innerHTML).toEqual('en-US');
-        expect(helloNode?.innerHTML).toEqual('Hello');
-        expect(helloSmthNode?.innerHTML).toEqual('Hello, friend!');
-        expect(helloWorldNode?.innerHTML).toEqual('Hello, World!');
+        assert.equal(localeNameNode?.innerHTML, 'en-US');
+        assert.equal(helloNode?.innerHTML, 'Hello');
+        assert.equal(helloSmthNode?.innerHTML, 'Hello, friend!');
+        assert.equal(helloWorldNode?.innerHTML, 'Hello, World!');
 
         unmount();
     });
@@ -112,10 +113,10 @@ describe('Localization', () => {
         const helloSmthNode = container.querySelector('.hello-smth');
         const helloWorldNode = container.querySelector('.hello-world');
 
-        expect(localeNameNode?.innerHTML).toEqual('ru-RU');
-        expect(helloNode?.innerHTML).toEqual('Привет');
-        expect(helloSmthNode?.innerHTML).toEqual('Привет, друг!');
-        expect(helloWorldNode?.innerHTML).toEqual('Привет, Мир!');
+        assert.equal(localeNameNode?.innerHTML, 'ru-RU');
+        assert.equal(helloNode?.innerHTML, 'Привет');
+        assert.equal(helloSmthNode?.innerHTML, 'Привет, друг!');
+        assert.equal(helloWorldNode?.innerHTML, 'Привет, Мир!');
 
         unmount();
     });
@@ -150,7 +151,7 @@ describe('Localization', () => {
             </LocalizationProvider>
         );
 
-        expect(testingLocaleName).toEqual('ru-RU');
+        assert.equal(testingLocaleName, 'ru-RU');
 
         unmount();
     });
@@ -202,9 +203,9 @@ describe('Localization', () => {
         const helloSmthNode = container.querySelector('.hello-smth');
         const helloHardNode = container.querySelector('.hello-hard');
 
-        expect(helloNode?.innerHTML).toEqual('Привет');
-        expect(helloSmthNode?.innerHTML).toEqual('Привет, <span>друг</span>!');
-        expect(helloHardNode?.innerHTML).toEqual('эти value-1 данные value-2 есть value-2 здесь');
+        assert.equal(helloNode?.innerHTML, 'Привет');
+        assert.equal(helloSmthNode?.innerHTML, 'Привет, <span>друг</span>!');
+        assert.equal(helloHardNode?.innerHTML, 'эти value-1 данные value-2 есть value-2 здесь');
 
         unmount();
     });
