@@ -6,7 +6,7 @@
 ![Known Vulnerabilities](https://snyk.io/test/github/webbestmaster/react-localization-library/badge.svg)
 [![Github CI](https://github.com/webbestmaster/react-localization-library/actions/workflows/github-ci.yml/badge.svg)](https://github.com/webbestmaster/react-localization-library/actions/workflows/github-ci.yml)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/webbestmaster/react-localization-library/github-ci.yml)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-localization-library)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-localization-library)](https://bundlephobia.com/package/react-localization-library)
 ![node-current](https://img.shields.io/node/v/react-localization-library)
 ![npm type definitions](https://img.shields.io/npm/types/react-localization-library)
 [![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-localization-library)](https://badgen.net/bundlephobia/dependency-count/react-localization-library)
