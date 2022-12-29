@@ -1,18 +1,19 @@
 # React Localization Library
 
 [![GitHub license](https://img.shields.io/npm/l/react-localization-library)](https://github.com/webbestmaster/react-localization-library/blob/master/license)
-[![codecov](https://codecov.io/gh/webbestmaster/react-localization-library/branch/master/graph/badge.svg?token=X5SNICUPUQ)](https://codecov.io/gh/webbestmaster/react-localization-library)
-[![npm version](https://img.shields.io/npm/v/react-localization-library.svg?style=flat)](https://www.npmjs.com/package/react-localization-library)
+[![codecov](https://codecov.io/gh/webbestmaster/react-localization-library/branch/master/graph/badge.svg)](https://codecov.io/gh/webbestmaster/react-localization-library)
+[![npm version](https://img.shields.io/npm/v/react-localization-library.svg)](https://www.npmjs.com/package/react-localization-library)
 [![Known Vulnerabilities](https://snyk.io/test/github/webbestmaster/react-localization-library/badge.svg)](https://snyk.io/test/github/webbestmaster/react-localization-library)
+[![dependency count](https://badgen.net/bundlephobia/dependency-count/react-localization-library)](https://badgen.net/bundlephobia/dependency-count/react-localization-library)
+[![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/webbestmaster/react-localization-library)](https://libraries.io/npm/react-localization-library)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-localization-library)](https://bundlephobia.com/package/react-localization-library)
+[![node version](https://img.shields.io/node/v/react-localization-library)](https://nodejs.org/en/docs)
 [![Github CI](https://github.com/webbestmaster/react-localization-library/actions/workflows/github-ci.yml/badge.svg)](https://github.com/webbestmaster/react-localization-library/actions/workflows/github-ci.yml)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/webbestmaster/react-localization-library/github-ci.yml)](https://github.com/webbestmaster/react-localization-library/actions/workflows/github-ci.yml)
-[![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-localization-library)](https://bundlephobia.com/package/react-localization-library)
-![node-current](https://img.shields.io/node/v/react-localization-library)
-![npm type definitions](https://img.shields.io/npm/types/react-localization-library)
-[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-localization-library)](https://badgen.net/bundlephobia/dependency-count/react-localization-library)
-[![GitHub stars](https://img.shields.io/github/stars/webbestmaster/react-localization-library?style=social)](https://github.com/webbestmaster/react-localization-library/)
-<!--[![Website](https://img.shields.io/website?url=http%3A%2F%2Fwebbestmaster.github.io%2F)](https://webbestmaster.github.io/) -->
-<!-- ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/webbestmaster/react-localization-library) -->
+[![type definitions](https://img.shields.io/npm/types/react-localization-library)](https://www.typescriptlang.org)
+[![Website](https://img.shields.io/website?url=https://github.com/webbestmaster/react-localization-library)](https://github.com/webbestmaster/react-localization-library)
+[![GitHub stars](https://img.shields.io/github/stars/webbestmaster/react-localization-library?style=social)](https://github.com/webbestmaster/react-localization-library)
+
 
 React localization hooks and components.
 
