@@ -12,6 +12,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/webbestmaster/react-localization-library/github-ci.yml)](https://github.com/webbestmaster/react-localization-library/actions/workflows/github-ci.yml)
 [![Type definitions](https://img.shields.io/npm/types/react-localization-library)](https://www.typescriptlang.org)
 [![Website](https://img.shields.io/website?url=https://github.com/webbestmaster/react-localization-library)](https://github.com/webbestmaster/react-localization-library)
+[![CodeFactor](https://www.codefactor.io/repository/github/webbestmaster/react-localization-library/badge)](https://www.codefactor.io/repository/github/webbestmaster/react-localization-library)
 [![Package Quality](https://packagequality.com/shield/react-localization-library.svg)](https://packagequality.com/#?package=react-localization-library)
 [![GitHub stars](https://img.shields.io/github/stars/webbestmaster/react-localization-library?style=social)](https://github.com/webbestmaster/react-localization-library)
 
