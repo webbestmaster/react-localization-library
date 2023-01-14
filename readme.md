@@ -5,7 +5,6 @@
 [![npm version](https://img.shields.io/npm/v/react-localization-library.svg)](https://www.npmjs.com/package/react-localization-library)
 [![Known Vulnerabilities](https://snyk.io/test/github/webbestmaster/react-localization-library/badge.svg)](https://snyk.io/test/github/webbestmaster/react-localization-library)
 [![Dependency count](https://badgen.net/bundlephobia/dependency-count/react-localization-library)](https://libraries.io/npm/react-localization-library)
-[![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/webbestmaster/react-localization-library)](https://libraries.io/npm/react-localization-library)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-localization-library)](https://bundlephobia.com/package/react-localization-library)
 [![nodejs version](https://img.shields.io/node/v/react-localization-library)](https://nodejs.org/en/docs)
 [![Github CI](https://github.com/webbestmaster/react-localization-library/actions/workflows/github-ci.yml/badge.svg)](https://github.com/webbestmaster/react-localization-library/actions/workflows/github-ci.yml)
@@ -16,6 +15,9 @@
 [![Package Quality](https://packagequality.com/shield/react-localization-library.svg)](https://packagequality.com/#?package=react-localization-library)
 [![GitHub stars](https://img.shields.io/github/stars/webbestmaster/react-localization-library?style=social)](https://github.com/webbestmaster/react-localization-library)
 
+<!--
+[![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/webbestmaster/react-localization-library)](https://libraries.io/npm/react-localization-library)
+-->
 
 React localization hooks and components.
 
