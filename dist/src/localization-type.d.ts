@@ -5,8 +5,9 @@ export type LocaleContextType<TranslationKeys extends string, LocaleName extends
     localeName: LocaleName;
     setLocaleName: (localeName: LocaleName) => void;
 };
-export type ProviderPropsType = {
+export type ProviderPropsType<LocaleName extends string> = {
     children: ReactNode;
+    forcedLocaleName?: LocaleName;
 };
 export type LocalePropsType<TranslationKeys extends string> = {
     stringKey: TranslationKeys;
@@ -27,6 +28,6 @@ export type LocalizationConfigType<TranslationKeys extends string, LocaleName ex
 };
 export type LocalizationLibraryType<TranslationKeys extends string, LocaleName extends string> = {
     Locale: (props: LocalePropsType<TranslationKeys>) => JSX.Element;
-    LocalizationProvider: FC<ProviderPropsType>;
+    LocalizationProvider: FC<ProviderPropsType<LocaleName>>;
     useLocale: () => LocaleContextType<TranslationKeys, LocaleName>;
 };

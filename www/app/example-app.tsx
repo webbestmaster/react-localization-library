@@ -90,7 +90,9 @@ function ExampleComponent(): JSX.Element {
 export function ExampleApp(): JSX.Element {
     return (
         <StrictMode>
-            <LocalizationProvider>
+            <LocalizationProvider
+                forcedLocaleName="ru-RU" // forcedLocaleName optional and will rewrite a defaultLocaleName from config
+            >
                 <ExampleComponent />
             </LocalizationProvider>
         </StrictMode>

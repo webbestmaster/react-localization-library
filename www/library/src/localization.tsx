@@ -54,13 +54,21 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
     const LocaleContext: Context<LocaleContextType<TranslationKeys, LocaleName>> =
         createContext<LocaleContextType<TranslationKeys, LocaleName>>(defaultLocalizationData);
 
-    function LocalizationProvider(props: ProviderPropsType): JSX.Element {
-        const {children} = props;
+    function LocalizationProvider(props: ProviderPropsType<LocaleName>): JSX.Element {
+        const {children, forcedLocaleName} = props;
 
-        const [localeName, setLocaleName] = useState<LocaleName>(defaultLocalizationData.localeName);
+        const [localeName, setLocaleName] = useState<LocaleName>(
+            forcedLocaleName || defaultLocalizationData.localeName
+        );
         const [isFetchingLocaleData, setIsFetchingLocaleData] = useState<boolean>(
             defaultLocalizationData.isFetchingLocaleData
         );
+
+        useEffect(() => {
+            if (forcedLocaleName) {
+                setLocaleName(forcedLocaleName);
+            }
+        }, [forcedLocaleName]);
 
         useEffect(() => {
             const existsLocalizationData: RawLocalizationDataType<TranslationKeys> = localization[localeName];

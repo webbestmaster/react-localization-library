@@ -25,9 +25,14 @@ export function createLocalization(localizationConfig) {
     };
     const LocaleContext = createContext(defaultLocalizationData);
     function LocalizationProvider(props) {
-        const { children } = props;
-        const [localeName, setLocaleName] = useState(defaultLocalizationData.localeName);
+        const { children, forcedLocaleName } = props;
+        const [localeName, setLocaleName] = useState(forcedLocaleName || defaultLocalizationData.localeName);
         const [isFetchingLocaleData, setIsFetchingLocaleData] = useState(defaultLocalizationData.isFetchingLocaleData);
+        useEffect(() => {
+            if (forcedLocaleName) {
+                setLocaleName(forcedLocaleName);
+            }
+        }, [forcedLocaleName]);
         useEffect(() => {
             const existsLocalizationData = localization[localeName];
             // check localization data already exists

@@ -156,6 +156,34 @@ describe('Localization', () => {
         unmount();
     });
 
+    test('localization provider - use forced locale name', () => {
+        let testingLocaleName: LocaleNameType = 'en-US';
+
+        const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
+            ...localizationConfig,
+            defaultLocaleName: testingLocaleName,
+        });
+
+        // eslint-disable-next-line react/no-multi-comp
+        function InnerComponent(): JSX.Element {
+            const {localeName} = useLocale();
+
+            testingLocaleName = localeName;
+
+            return <div />;
+        }
+
+        const {unmount} = render(
+            <LocalizationProvider forcedLocaleName="ru-RU">
+                <InnerComponent />
+            </LocalizationProvider>
+        );
+
+        assert.equal(testingLocaleName, 'ru-RU');
+
+        unmount();
+    });
+
     test('locale', () => {
         const {LocalizationProvider, useLocale, Locale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
