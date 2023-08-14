@@ -1,11 +1,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
-import assert from 'node:assert/strict';
-
 import {useEffect} from 'react';
 
 import {render} from '@testing-library/react';
-import {describe, test} from '@jest/globals';
+import {describe, it, expect} from '@jest/globals';
 
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library';
 
@@ -26,6 +24,7 @@ const ruRu = {
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
+// eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
@@ -36,8 +35,9 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
     },
 };
 
-describe('Localization', () => {
-    test('localization provider', () => {
+describe('localization', () => {
+    it('localization provider', () => {
+        expect.assertions(4);
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
@@ -69,15 +69,16 @@ describe('Localization', () => {
         const helloSmthNode = container.querySelector('.hello-smth');
         const helloWorldNode = container.querySelector('.hello-world');
 
-        assert.equal(localeNameNode?.innerHTML, 'en-US');
-        assert.equal(helloNode?.innerHTML, 'Hello');
-        assert.equal(helloSmthNode?.innerHTML, 'Hello, friend!');
-        assert.equal(helloWorldNode?.innerHTML, 'Hello, World!');
+        expect(localeNameNode?.innerHTML).toBe('en-US');
+        expect(helloNode?.innerHTML).toBe('Hello');
+        expect(helloSmthNode?.innerHTML).toBe('Hello, friend!');
+        expect(helloWorldNode?.innerHTML).toBe('Hello, World!');
 
         unmount();
     });
 
-    test('localization provider - change locale name', () => {
+    it('localization provider - change locale name', () => {
+        expect.assertions(4);
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
@@ -113,24 +114,25 @@ describe('Localization', () => {
         const helloSmthNode = container.querySelector('.hello-smth');
         const helloWorldNode = container.querySelector('.hello-world');
 
-        assert.equal(localeNameNode?.innerHTML, 'ru-RU');
-        assert.equal(helloNode?.innerHTML, 'Привет');
-        assert.equal(helloSmthNode?.innerHTML, 'Привет, друг!');
-        assert.equal(helloWorldNode?.innerHTML, 'Привет, Мир!');
+        expect(localeNameNode?.innerHTML).toBe('ru-RU');
+        expect(helloNode?.innerHTML).toBe('Привет');
+        expect(helloSmthNode?.innerHTML).toBe('Привет, друг!');
+        expect(helloWorldNode?.innerHTML).toBe('Привет, Мир!');
 
         unmount();
     });
 
-    test('localization provider - on useEffect', () => {
+    it('localization provider - on useEffect', () => {
+        expect.assertions(1);
         let testingLocaleName: LocaleNameType = 'en-US';
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
             ...localizationConfig,
             defaultLocaleName: testingLocaleName,
             onUseEffect: (data: LocalizationStateType<LocaleNameType>) => {
-                const {localeName: newLocaleName} = data;
+                const {localeName: updatedLocaleName} = data;
 
-                testingLocaleName = newLocaleName;
+                testingLocaleName = updatedLocaleName;
             },
         });
 
@@ -151,12 +153,13 @@ describe('Localization', () => {
             </LocalizationProvider>
         );
 
-        assert.equal(testingLocaleName, 'ru-RU');
+        expect(testingLocaleName).toBe('ru-RU');
 
         unmount();
     });
 
-    test('localization provider - use forced locale name', () => {
+    it('localization provider - use forced locale name', () => {
+        expect.assertions(1);
         let testingLocaleName: LocaleNameType = 'en-US';
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
@@ -179,12 +182,13 @@ describe('Localization', () => {
             </LocalizationProvider>
         );
 
-        assert.equal(testingLocaleName, 'ru-RU');
+        expect(testingLocaleName).toBe('ru-RU');
 
         unmount();
     });
 
-    test('locale', () => {
+    it('locale', () => {
+        expect.assertions(3);
         const {LocalizationProvider, useLocale, Locale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
@@ -231,9 +235,9 @@ describe('Localization', () => {
         const helloSmthNode = container.querySelector('.hello-smth');
         const helloHardNode = container.querySelector('.hello-hard');
 
-        assert.equal(helloNode?.innerHTML, 'Привет');
-        assert.equal(helloSmthNode?.innerHTML, 'Привет, <span>друг</span>!');
-        assert.equal(helloHardNode?.innerHTML, 'эти value-1 данные value-2 есть value-2 здесь');
+        expect(helloNode?.innerHTML).toBe('Привет');
+        expect(helloSmthNode?.innerHTML).toBe('Привет, <span>друг</span>!');
+        expect(helloHardNode?.innerHTML).toBe('эти value-1 данные value-2 есть value-2 здесь');
 
         unmount();
     });

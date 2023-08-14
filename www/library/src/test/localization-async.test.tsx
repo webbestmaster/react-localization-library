@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {useEffect} from 'react';
 
 import {render, waitFor} from '@testing-library/react';
-import {describe, test} from '@jest/globals';
+import {describe, it, expect} from '@jest/globals';
 
 import {waitForTime} from '../../../../test-unit/util';
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library';
@@ -28,6 +28,7 @@ const ruRu = {
 };
 
 type LocaleNameType = 'en-US' | 'ru-RU';
+// eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
@@ -46,8 +47,9 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
     },
 };
 
-describe('Localization async', () => {
-    test('localization provider async', async () => {
+describe('localization async', () => {
+    it('localization provider async', async () => {
+        expect.assertions(5);
         let isFetchingLocaleDataExternal = false;
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
@@ -80,23 +82,29 @@ describe('Localization async', () => {
             </LocalizationProvider>
         );
 
-        assert.equal(isFetchingLocaleDataExternal, true);
-        await waitFor(() => assert.equal(isFetchingLocaleDataExternal, false), {interval: 50, timeout: 250});
+        expect(isFetchingLocaleDataExternal).toBe(true);
+        await waitFor(
+            () => {
+                assert.equal(isFetchingLocaleDataExternal, false);
+            },
+            {interval: 50, timeout: 250}
+        );
 
         const localeNameNode = container.querySelector('.locale-name');
         const helloNode = container.querySelector('.hello');
         const helloSmthNode = container.querySelector('.hello-smth');
         const helloWorldNode = container.querySelector('.hello-world');
 
-        assert.equal(localeNameNode?.innerHTML, 'en-US');
-        assert.equal(helloNode?.innerHTML, 'Hello');
-        assert.equal(helloSmthNode?.innerHTML, 'Hello, friend!');
-        assert.equal(helloWorldNode?.innerHTML, 'Hello, World!');
+        expect(localeNameNode?.innerHTML).toBe('en-US');
+        expect(helloNode?.innerHTML).toBe('Hello');
+        expect(helloSmthNode?.innerHTML).toBe('Hello, friend!');
+        expect(helloWorldNode?.innerHTML).toBe('Hello, World!');
 
         unmount();
     });
 
-    test('localization provider - change locale name async', async () => {
+    it('localization provider - change locale name async', async () => {
+        expect.assertions(4);
         let localeNameExternal: LocaleNameType = localizationConfig.defaultLocaleName;
         let isFetchingLocaleDataExternal = false;
 
@@ -113,6 +121,7 @@ describe('Localization async', () => {
             }, [isFetchingLocaleData]);
 
             useEffect(() => {
+                // eslint-disable-next-line jest/no-conditional-in-test
                 if (!isFetchingLocaleData && localeName !== 'ru-RU') {
                     setLocaleName('ru-RU');
                     localeNameExternal = 'ru-RU';
@@ -153,24 +162,25 @@ describe('Localization async', () => {
         const helloSmthNode = container.querySelector('.hello-smth');
         const helloWorldNode = container.querySelector('.hello-world');
 
-        assert.equal(localeNameNode?.innerHTML, 'ru-RU');
-        assert.equal(helloNode?.innerHTML, 'Привет');
-        assert.equal(helloSmthNode?.innerHTML, 'Привет, друг!');
-        assert.equal(helloWorldNode?.innerHTML, 'Привет, Мир!');
+        expect(localeNameNode?.innerHTML).toBe('ru-RU');
+        expect(helloNode?.innerHTML).toBe('Привет');
+        expect(helloSmthNode?.innerHTML).toBe('Привет, друг!');
+        expect(helloWorldNode?.innerHTML).toBe('Привет, Мир!');
 
         unmount();
     });
 
-    test('localization provider - on useEffect async', async () => {
+    it('localization provider - on useEffect async', async () => {
+        expect.assertions(0);
         let testingLocaleName: LocaleNameType = 'en-US';
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
             ...localizationConfig,
             defaultLocaleName: testingLocaleName,
             onUseEffect: (data: LocalizationStateType<LocaleNameType>) => {
-                const {localeName: newLocaleName} = data;
+                const {localeName: updatedLocaleName} = data;
 
-                testingLocaleName = newLocaleName;
+                testingLocaleName = updatedLocaleName;
             },
         });
 
@@ -179,6 +189,7 @@ describe('Localization async', () => {
             const {setLocaleName, isFetchingLocaleData, localeName} = useLocale();
 
             useEffect(() => {
+                // eslint-disable-next-line jest/no-conditional-in-test
                 if (!isFetchingLocaleData && localeName !== 'ru-RU') {
                     setLocaleName('ru-RU');
                 }
@@ -193,12 +204,18 @@ describe('Localization async', () => {
             </LocalizationProvider>
         );
 
-        await waitFor(() => assert.equal(testingLocaleName, 'ru-RU'), {interval: 50, timeout: 1000});
+        await waitFor(
+            () => {
+                assert.equal(testingLocaleName, 'ru-RU');
+            },
+            {interval: 50, timeout: 1000}
+        );
 
         unmount();
     });
 
-    test('locale async', async () => {
+    it('locale async', async () => {
+        expect.assertions(0);
         let localeNameExternal: LocaleNameType = localizationConfig.defaultLocaleName;
         let isFetchingLocaleDataExternal = false;
 
@@ -217,6 +234,7 @@ describe('Localization async', () => {
 
             // eslint-disable-next-line sonarjs/no-identical-functions
             useEffect(() => {
+                // eslint-disable-next-line jest/no-conditional-in-test
                 if (!isFetchingLocaleData && localeName !== 'ru-RU') {
                     setLocaleName('ru-RU');
                     localeNameExternal = 'ru-RU';
@@ -283,7 +301,8 @@ describe('Localization async', () => {
         unmount();
     });
 
-    test('localization provider - change locale name async [variant - 1]', async () => {
+    it('localization provider - change locale name async [variant - 1]', async () => {
+        expect.assertions(0);
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
@@ -298,6 +317,7 @@ describe('Localization async', () => {
 
             // eslint-disable-next-line sonarjs/no-identical-functions
             useEffect(() => {
+                // eslint-disable-next-line jest/no-conditional-in-test
                 if (!isFetchingLocaleData && localeName !== 'ru-RU') {
                     setLocaleName('ru-RU');
                 }
@@ -342,8 +362,10 @@ describe('Localization async', () => {
         unmount();
     });
 
-    test('localization helper - fetchLocalizationData', async () => {
+    it('localization helper - fetchLocalizationData', async () => {
+        expect.assertions(1);
         const localizationConfigSync: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
+            // eslint-disable-next-line unicorn/no-unused-properties
             defaultLocaleName: 'en-US',
             localization: {
                 'en-US': enUs,
@@ -356,6 +378,6 @@ describe('Localization async', () => {
             localizationConfigSync.localization
         );
 
-        assert.equal(localizationData, ruRu);
+        expect(localizationData).toBe(ruRu);
     });
 });
