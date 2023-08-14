@@ -28,19 +28,14 @@ const definePluginParameters: Record<string, string> = {
 
 type StaticFilesDataType = Record<'from' | 'to', string>;
 
-const staticFilesSiteList: Array<StaticFilesDataType> = [
-    'favicon.ico',
-    'robots.txt',
-    'ads.txt',
-    'gss-0.9.xsl',
-    'manifest.json',
-    // 'index-500.html',
-].map<StaticFilesDataType>((fileName: string): StaticFilesDataType => {
-    return {
-        from: `./www/${fileName}`,
-        to: `${filePathPrefix}${fileName}`,
-    };
-});
+const staticFilesSiteList: Array<StaticFilesDataType> = ['favicon.ico'].map<StaticFilesDataType>(
+    (fileName: string): StaticFilesDataType => {
+        return {
+            from: `./www/${fileName}`,
+            to: `${filePathPrefix}${fileName}`,
+        };
+    }
+);
 
 const duplicateCheckerPluginInstance: WebpackPluginInstance = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
