@@ -1,3 +1,5 @@
+/* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position, multiline-comment-style */
+
 import path from 'node:path';
 
 import {Configuration} from 'webpack';

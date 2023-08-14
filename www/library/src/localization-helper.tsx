@@ -1,3 +1,5 @@
+/* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position, multiline-comment-style */
+
 import {Fragment, ReactNode} from 'react';
 
 import {splitValueStringRegExp} from './localization-const';
@@ -15,7 +17,7 @@ function replacePlaceholderMap(rawString: string, valueMap: Record<string, strin
 
     // eslint-disable-next-line no-loops/no-loops
     for (const objectKey of keyList) {
-        resultString = resultString.replace(new RegExp('{' + objectKey + '}', 'g'), valueMap[objectKey]);
+        resultString = resultString.replace(new RegExp(`\\{${objectKey}\\}`, 'gu'), valueMap[objectKey]);
     }
 
     return resultString;
@@ -57,7 +59,7 @@ export function getLocalizedComponentHelper<TranslationKeys extends string, Loca
                 return part;
             }
 
-            const replacedPart = '{' + objectKey + '}';
+            const replacedPart = `{${objectKey}}`;
 
             if (!part.startsWith(replacedPart)) {
                 return part;
@@ -66,7 +68,7 @@ export function getLocalizedComponentHelper<TranslationKeys extends string, Loca
             const endOfString = part.slice(replacedPart.length);
 
             return (
-                <Fragment key={String(objectKey + '-' + index)}>
+                <Fragment key={String(`${objectKey}-${index}`)}>
                     {valueMap[objectKey]}
                     {endOfString}
                 </Fragment>

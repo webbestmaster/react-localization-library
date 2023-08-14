@@ -26,28 +26,23 @@ import {waitForTime} from './util/timer';
 export function createLocalization<TranslationKeys extends string, LocaleName extends string>(
     localizationConfig: LocalizationConfigType<TranslationKeys, LocaleName>
 ): LocalizationLibraryType<TranslationKeys, LocaleName> {
-    const {defaultLocaleName, localization: localizationArgument, onUseEffect = () => null} = localizationConfig;
+    const {
+        defaultLocaleName,
+        localization: localizationArgument,
+        onUseEffect = () => {
+            return null;
+        },
+    } = localizationConfig;
     let previousLocalizationName: LocaleName = defaultLocaleName;
 
     const localization: LocalizationType<LocaleName, TranslationKeys> = {...localizationArgument};
 
-    // for (const key in localization) {
-    //     const localizationData: LocalizationDataType<TranslationKeys> | LocalizationDataLoaderType<TranslationKeys> = localization[key];
-    //
-    //     localeNameMap[key] = typeof localizationData !== 'function' ? null : localizationData;
-    // }
-
-    // const localizationMap: Record<LocaleName, null> = Object.fromEntries<Record<LocaleName, null>>(localeNameList);
-
-    // console.log(localeNameList, localizationMap);
-
-    // const localizationMap: Record<LocaleName, null> = Object
-    //     .fromEntries<null>(Object.keys(localization).map((key: LocaleName) => [key, null]))
-
     const defaultLocalizationData: LocaleContextType<TranslationKeys, LocaleName> = {
+        // eslint-disable-next-line @typescript-eslint/unbound-method, jest/unbound-method
         getLocalizedString: String.toString,
         isFetchingLocaleData: typeof localization[defaultLocaleName] === 'function',
         localeName: defaultLocaleName,
+        // eslint-disable-next-line @typescript-eslint/unbound-method, jest/unbound-method
         setLocaleName: String.toString,
     };
 
@@ -58,7 +53,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
         const {children, forcedLocaleName} = props;
 
         const [localeName, setLocaleName] = useState<LocaleName>(
-            forcedLocaleName || defaultLocalizationData.localeName
+            forcedLocaleName ?? defaultLocalizationData.localeName
         );
         const [isFetchingLocaleData, setIsFetchingLocaleData] = useState<boolean>(
             defaultLocalizationData.isFetchingLocaleData
@@ -73,7 +68,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
         useEffect(() => {
             const existsLocalizationData: RawLocalizationDataType<TranslationKeys> = localization[localeName];
 
-            // check localization data already exists
+            // Check localization data already exists
             if (typeof existsLocalizationData !== 'function') {
                 previousLocalizationName = localeName;
                 onUseEffect({isFetchingLocaleData: false, localeName});
@@ -83,11 +78,10 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
             setIsFetchingLocaleData(true);
             onUseEffect({isFetchingLocaleData: true, localeName: previousLocalizationName});
 
-            // eslint-disable-next-line promise/catch-or-return
+            // eslint-disable-next-line promise/catch-or-return, @typescript-eslint/no-floating-promises
             fetchLocalizationData<LocaleName, TranslationKeys>(localeName, localization)
                 .then((localizationData: LocalizationDataType<TranslationKeys>) => {
-                    // Make sure that React's circle is updated
-                    // needed to update async locale
+                    // Make sure that React's circle is updated, needed to update async locale
                     // eslint-disable-next-line promise/no-nesting
                     return waitForTime(0).then(() => {
                         localization[localeName] = localizationData;
@@ -102,12 +96,12 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
         }, [localeName, setIsFetchingLocaleData]);
 
         const memoizedSetLocaleName = useCallback(
-            (newLocaleName: LocaleName) => {
+            (updatedLocaleName: LocaleName) => {
                 if (isFetchingLocaleData) {
                     console.log('do not change locale name while localizing data loading');
                     return;
                 }
-                setLocaleName(newLocaleName);
+                setLocaleName(updatedLocaleName);
             },
             [isFetchingLocaleData]
         );

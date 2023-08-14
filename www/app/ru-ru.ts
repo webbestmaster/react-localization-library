@@ -1,5 +1,3 @@
-// import
-
 export const ruRu = {
     DIFFERENT_VARIABLES: 'Hello, {two}!',
     FRIEND: 'друг',

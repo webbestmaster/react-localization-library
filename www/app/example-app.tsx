@@ -1,5 +1,7 @@
 /* eslint-disable sort-keys, react/no-multi-comp */
 
+/* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position, multiline-comment-style */
+
 import {StrictMode} from 'react';
 
 import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../library/library';
@@ -36,9 +38,9 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
         },
     },
     onUseEffect: (data: LocalizationStateType<LocaleNameType>) => {
-        const {localeName: newLocaleName} = data;
+        const {localeName: updatedLocaleName} = data;
 
-        console.log('new locale name', newLocaleName);
+        console.log('new locale name', updatedLocaleName);
     },
 };
 
@@ -61,10 +63,20 @@ function ExampleComponent(): JSX.Element {
             <h1>Current locale: {localeName}</h1>
             <h2>Localization data is fetching: {isFetchingLocaleData ? 'Yes' : 'No'}</h2>
 
-            <button onClick={() => setLocaleName('en-US')} type="button">
+            <button
+                onClick={() => {
+                    setLocaleName('en-US');
+                }}
+                type="button"
+            >
                 use en-US
             </button>
-            <button onClick={() => setLocaleName('ru-RU')} type="button">
+            <button
+                onClick={() => {
+                    setLocaleName('ru-RU');
+                }}
+                type="button"
+            >
                 use ru-RU
             </button>
 
