@@ -1,10 +1,11 @@
-/* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position, multiline-comment-style */
+/* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position */
 
+import {cwd} from 'node:process';
 import path from 'node:path';
 
 import {Configuration} from 'webpack';
 import nodeExternals from 'webpack-node-externals';
-// import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+// import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 
 import {optimization} from './setting/optimization';
 import {rules} from './setting/module/rules';
@@ -22,7 +23,6 @@ import {
     isDevelopment,
     // isProduction,
     pathToDistribution,
-    cwd,
     nodeEnvironment,
     isBuildLibrary,
     isFront,
@@ -42,7 +42,7 @@ const configFront: Configuration = {
             : 'build-asset/[hash:6][ext][query]',
         chunkFilename: isDevelopment ? '[name].chunk.js' : '[name].[hash:6].chunk.js',
         filename: isDevelopment ? '[name].js' : 'index.js',
-        path: path.join(cwd, pathToDistribution),
+        path: path.join(cwd(), pathToDistribution),
         pathinfo: false,
         publicPath: isDevelopment ? '/' : pathToStaticFileFolder,
     },
@@ -62,7 +62,8 @@ const configBack: Configuration = {
 };
 
 const configLibraryFront: Configuration = {
-    devtool: 'source-map', // isServerProdBuild ? false : 'source-map',
+    // isServerProdBuild ? false : 'source-map',
+    devtool: 'source-map',
     entry: ['./www/library/library.ts'],
     externals,
     externalsPresets,
@@ -72,7 +73,7 @@ const configLibraryFront: Configuration = {
     output: {
         filename: 'index.js',
         libraryTarget: 'commonjs2',
-        path: path.join(cwd, 'dist'),
+        path: path.join(cwd(), 'dist'),
         pathinfo: false,
         publicPath: '',
     },
