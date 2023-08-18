@@ -2,15 +2,15 @@
 
 /* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position, multiline-comment-style */
 
-import {StrictMode} from 'react';
+import {StrictMode} from "react";
 
-import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../library/library';
+import {createLocalization, LocalizationConfigType, LocalizationStateType} from "../library/library";
 
 const enUs = {
-    DIFFERENT_VARIABLES: 'Hello, {one}!',
-    FRIEND: 'friend',
-    HELLO: 'Hello',
-    HELLO_SMTH: 'Hello, {smth}!',
+    DIFFERENT_VARIABLES: "Hello, {one}!",
+    FRIEND: "friend",
+    HELLO: "Hello",
+    HELLO_SMTH: "Hello, {smth}!",
     // KEY_ONLY_EU_US: 'Hello, en-US!', // throw error when using
 };
 
@@ -24,15 +24,15 @@ const ruRu = {
 };
 */
 
-type LocaleNameType = 'en-US' | 'ru-RU';
+type LocaleNameType = "en-US" | "ru-RU";
 type LocaleKeysType = keyof typeof enUs; // & keyof typeof ruRu;
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
-    defaultLocaleName: 'en-US',
+    defaultLocaleName: "en-US",
     localization: {
-        'en-US': enUs,
-        'ru-RU': async () => {
-            const {ruRu} = await import('./ru-ru');
+        "en-US": enUs,
+        "ru-RU": async () => {
+            const {ruRu} = await import("./ru-ru");
 
             return ruRu;
         },
@@ -40,7 +40,7 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
     onUseEffect: (data: LocalizationStateType<LocaleNameType>) => {
         const {localeName: updatedLocaleName} = data;
 
-        console.log('new locale name', updatedLocaleName);
+        console.log("new locale name", updatedLocaleName);
     },
 };
 
@@ -61,11 +61,11 @@ function ExampleComponent(): JSX.Element {
     return (
         <>
             <h1>Current locale: {localeName}</h1>
-            <h2>Localization data is fetching: {isFetchingLocaleData ? 'Yes' : 'No'}</h2>
+            <h2>Localization data is fetching: {isFetchingLocaleData ? "Yes" : "No"}</h2>
 
             <button
                 onClick={() => {
-                    setLocaleName('en-US');
+                    setLocaleName("en-US");
                 }}
                 type="button"
             >
@@ -73,7 +73,7 @@ function ExampleComponent(): JSX.Element {
             </button>
             <button
                 onClick={() => {
-                    setLocaleName('ru-RU');
+                    setLocaleName("ru-RU");
                 }}
                 type="button"
             >
@@ -82,11 +82,11 @@ function ExampleComponent(): JSX.Element {
 
             <p>Example 1</p>
 
-            {getLocalizedString('FRIEND')}
+            {getLocalizedString("FRIEND")}
             <br />
-            {getLocalizedString('HELLO_SMTH', {smth: 'type string'})}
+            {getLocalizedString("HELLO_SMTH", {smth: "type string"})}
             <br />
-            {getLocalizedString('DIFFERENT_VARIABLES', {one: 'word 1', two: 'word 2'})}
+            {getLocalizedString("DIFFERENT_VARIABLES", {one: "word 1", two: "word 2"})}
 
             <p>Example 2</p>
 
@@ -94,7 +94,7 @@ function ExampleComponent(): JSX.Element {
             <br />
             <Locale stringKey="HELLO_SMTH" valueMap={{smth: <Locale stringKey="FRIEND" />}} />
             <br />
-            <Locale stringKey="DIFFERENT_VARIABLES" valueMap={{one: 'word 1', two: 'word 2'}} />
+            <Locale stringKey="DIFFERENT_VARIABLES" valueMap={{one: "word 1", two: "word 2"}} />
         </>
     );
 }

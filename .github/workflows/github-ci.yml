@@ -27,9 +27,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
 #    - run: npm i @types/react
 #    - run: npm i @types/react-dom
+    - run: npm install
     - run: npm i -D react
     - run: npm i -D react-dom
-    - run: npm install
 
     - run: npm run front:build
     - run: npm run front:build-library

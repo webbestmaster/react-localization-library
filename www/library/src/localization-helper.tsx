@@ -1,14 +1,14 @@
 /* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position, multiline-comment-style */
 
-import {Fragment, ReactNode} from 'react';
+import {Fragment, ReactNode} from "react";
 
-import {splitValueStringRegExp} from './localization-const';
+import {splitValueStringRegExp} from "./localization-const";
 import {
     LocalizationDataType,
     // LocalizationDataLoaderType,
     LocalizationType,
     RawLocalizationDataType,
-} from './localization-type';
+} from "./localization-type";
 
 function replacePlaceholderMap(rawString: string, valueMap: Record<string, string>): string {
     let resultString = rawString;
@@ -17,7 +17,7 @@ function replacePlaceholderMap(rawString: string, valueMap: Record<string, strin
 
     // eslint-disable-next-line no-loops/no-loops
     for (const objectKey of keyList) {
-        resultString = resultString.replace(new RegExp(`\\{${objectKey}\\}`, 'gu'), valueMap[objectKey]);
+        resultString = resultString.replace(new RegExp(`\\{${objectKey}\\}`, "gu"), valueMap[objectKey]);
     }
 
     return resultString;
@@ -55,7 +55,7 @@ export function getLocalizedComponentHelper<TranslationKeys extends string, Loca
     // eslint-disable-next-line no-loops/no-loops
     for (const objectKey of keyList) {
         partList = partList.map((part: JSX.Element | string, index: number): JSX.Element | string => {
-            if (typeof part !== 'string') {
+            if (typeof part !== "string") {
                 return part;
             }
 
@@ -85,7 +85,7 @@ export function fetchLocalizationData<LocaleName extends string, TranslationKeys
 ): Promise<LocalizationDataType<TranslationKeys>> {
     const localizationData: RawLocalizationDataType<TranslationKeys> = localization[localeName];
 
-    if (typeof localizationData === 'function') {
+    if (typeof localizationData === "function") {
         return localizationData();
     }
 

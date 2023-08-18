@@ -1,4 +1,4 @@
-import {FC, ReactNode} from 'react';
+import {FC, ReactNode} from "react";
 
 export interface LocaleContextType<TranslationKeys extends string, LocaleName extends string> {
     getLocalizedString: (stringKey: TranslationKeys, valueMap?: Record<string, string>) => string;

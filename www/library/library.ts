@@ -1,4 +1,4 @@
-export {createLocalization} from './src/localization';
+export {createLocalization} from "./src/localization";
 export type {
     LocalizationStateType,
     LocaleContextType,
@@ -6,4 +6,4 @@ export type {
     ProviderPropsType,
     LocalizationConfigType,
     LocalizationLibraryType,
-} from './src/localization-type';
+} from "./src/localization-type";

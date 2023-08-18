@@ -1,45 +1,45 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
-import assert from 'node:assert/strict';
+import assert from "node:assert/strict";
 
-import {useEffect} from 'react';
+import {useEffect} from "react";
 
-import {render, waitFor} from '@testing-library/react';
-import {describe, it, expect} from '@jest/globals';
+import {render, waitFor} from "@testing-library/react";
+import {describe, it, expect} from "@jest/globals";
 
-import {waitForTime} from '../../../../test-unit/util';
-import {createLocalization, LocalizationConfigType, LocalizationStateType} from '../../library';
-import {fetchLocalizationData} from '../localization-helper';
+import {waitForTime} from "../../../../test-unit/util";
+import {createLocalization, LocalizationConfigType, LocalizationStateType} from "../../library";
+import {fetchLocalizationData} from "../localization-helper";
 
 const enUs = {
-    FRIEND: 'friend',
-    HARD_STRING: 'the {value1} data {value2} is {value2} here',
-    HELLO: 'Hello',
-    HELLO_SMTH: 'Hello, {smth}!',
-    HELLO_WORLD: 'Hello, World!',
+    FRIEND: "friend",
+    HARD_STRING: "the {value1} data {value2} is {value2} here",
+    HELLO: "Hello",
+    HELLO_SMTH: "Hello, {smth}!",
+    HELLO_WORLD: "Hello, World!",
 };
 
 const ruRu = {
-    FRIEND: 'друг',
-    HARD_STRING: 'эти {value1} данные {value2} есть {value2} здесь',
-    HELLO: 'Привет',
-    HELLO_SMTH: 'Привет, {smth}!',
-    HELLO_WORLD: 'Привет, Мир!',
+    FRIEND: "друг",
+    HARD_STRING: "эти {value1} данные {value2} есть {value2} здесь",
+    HELLO: "Привет",
+    HELLO_SMTH: "Привет, {smth}!",
+    HELLO_WORLD: "Привет, Мир!",
 };
 
-type LocaleNameType = 'en-US' | 'ru-RU';
+type LocaleNameType = "en-US" | "ru-RU";
 // eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents
 type LocaleKeysType = keyof typeof enUs & keyof typeof ruRu;
 
 const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
-    defaultLocaleName: 'en-US',
+    defaultLocaleName: "en-US",
     localization: {
-        'en-US': async () => {
+        "en-US": async () => {
             await waitForTime(100);
 
             return enUs;
         },
-        'ru-RU': async () => {
+        "ru-RU": async () => {
             await waitForTime(100);
 
             return ruRu;
@@ -47,8 +47,8 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
     },
 };
 
-describe('localization async', () => {
-    it('localization provider async', async () => {
+describe("localization async", () => {
+    it("localization provider async", async () => {
         expect.assertions(5);
         let isFetchingLocaleDataExternal = false;
 
@@ -67,11 +67,11 @@ describe('localization async', () => {
             return (
                 <div>
                     <p className="locale-name">{localeName}</p>
-                    <p className="hello">{getLocalizedString('HELLO')}</p>
+                    <p className="hello">{getLocalizedString("HELLO")}</p>
                     <p className="hello-smth">
-                        {getLocalizedString('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+                        {getLocalizedString("HELLO_SMTH", {smth: getLocalizedString("FRIEND")})}
                     </p>
-                    <p className="hello-world">{getLocalizedString('HELLO_WORLD')}</p>
+                    <p className="hello-world">{getLocalizedString("HELLO_WORLD")}</p>
                 </div>
             );
         }
@@ -90,20 +90,20 @@ describe('localization async', () => {
             {interval: 50, timeout: 250}
         );
 
-        const localeNameNode = container.querySelector('.locale-name');
-        const helloNode = container.querySelector('.hello');
-        const helloSmthNode = container.querySelector('.hello-smth');
-        const helloWorldNode = container.querySelector('.hello-world');
+        const localeNameNode = container.querySelector(".locale-name");
+        const helloNode = container.querySelector(".hello");
+        const helloSmthNode = container.querySelector(".hello-smth");
+        const helloWorldNode = container.querySelector(".hello-world");
 
-        expect(localeNameNode?.innerHTML).toBe('en-US');
-        expect(helloNode?.innerHTML).toBe('Hello');
-        expect(helloSmthNode?.innerHTML).toBe('Hello, friend!');
-        expect(helloWorldNode?.innerHTML).toBe('Hello, World!');
+        expect(localeNameNode?.innerHTML).toBe("en-US");
+        expect(helloNode?.innerHTML).toBe("Hello");
+        expect(helloSmthNode?.innerHTML).toBe("Hello, friend!");
+        expect(helloWorldNode?.innerHTML).toBe("Hello, World!");
 
         unmount();
     });
 
-    it('localization provider - change locale name async', async () => {
+    it("localization provider - change locale name async", async () => {
         expect.assertions(4);
         let localeNameExternal: LocaleNameType = localizationConfig.defaultLocaleName;
         let isFetchingLocaleDataExternal = false;
@@ -122,20 +122,20 @@ describe('localization async', () => {
 
             useEffect(() => {
                 // eslint-disable-next-line jest/no-conditional-in-test
-                if (!isFetchingLocaleData && localeName !== 'ru-RU') {
-                    setLocaleName('ru-RU');
-                    localeNameExternal = 'ru-RU';
+                if (!isFetchingLocaleData && localeName !== "ru-RU") {
+                    setLocaleName("ru-RU");
+                    localeNameExternal = "ru-RU";
                 }
             }, [setLocaleName, isFetchingLocaleData, localeName]);
 
             return (
                 <div>
                     <p className="locale-name">{localeName}</p>
-                    <p className="hello">{getLocalizedString('HELLO')}</p>
+                    <p className="hello">{getLocalizedString("HELLO")}</p>
                     <p className="hello-smth">
-                        {getLocalizedString('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+                        {getLocalizedString("HELLO_SMTH", {smth: getLocalizedString("FRIEND")})}
                     </p>
-                    <p className="hello-world">{getLocalizedString('HELLO_WORLD')}</p>
+                    <p className="hello-world">{getLocalizedString("HELLO_WORLD")}</p>
                 </div>
             );
         }
@@ -148,7 +148,7 @@ describe('localization async', () => {
 
         await waitFor(
             () => {
-                assert.equal(localeNameExternal, 'ru-RU');
+                assert.equal(localeNameExternal, "ru-RU");
                 assert.equal(isFetchingLocaleDataExternal, false);
             },
             {
@@ -157,22 +157,22 @@ describe('localization async', () => {
             }
         );
 
-        const localeNameNode = container.querySelector('.locale-name');
-        const helloNode = container.querySelector('.hello');
-        const helloSmthNode = container.querySelector('.hello-smth');
-        const helloWorldNode = container.querySelector('.hello-world');
+        const localeNameNode = container.querySelector(".locale-name");
+        const helloNode = container.querySelector(".hello");
+        const helloSmthNode = container.querySelector(".hello-smth");
+        const helloWorldNode = container.querySelector(".hello-world");
 
-        expect(localeNameNode?.innerHTML).toBe('ru-RU');
-        expect(helloNode?.innerHTML).toBe('Привет');
-        expect(helloSmthNode?.innerHTML).toBe('Привет, друг!');
-        expect(helloWorldNode?.innerHTML).toBe('Привет, Мир!');
+        expect(localeNameNode?.innerHTML).toBe("ru-RU");
+        expect(helloNode?.innerHTML).toBe("Привет");
+        expect(helloSmthNode?.innerHTML).toBe("Привет, друг!");
+        expect(helloWorldNode?.innerHTML).toBe("Привет, Мир!");
 
         unmount();
     });
 
-    it('localization provider - on useEffect async', async () => {
+    it("localization provider - on useEffect async", async () => {
         expect.assertions(0);
-        let testingLocaleName: LocaleNameType = 'en-US';
+        let testingLocaleName: LocaleNameType = "en-US";
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
             ...localizationConfig,
@@ -190,8 +190,8 @@ describe('localization async', () => {
 
             useEffect(() => {
                 // eslint-disable-next-line jest/no-conditional-in-test
-                if (!isFetchingLocaleData && localeName !== 'ru-RU') {
-                    setLocaleName('ru-RU');
+                if (!isFetchingLocaleData && localeName !== "ru-RU") {
+                    setLocaleName("ru-RU");
                 }
             }, [setLocaleName, isFetchingLocaleData, localeName]);
 
@@ -206,7 +206,7 @@ describe('localization async', () => {
 
         await waitFor(
             () => {
-                assert.equal(testingLocaleName, 'ru-RU');
+                assert.equal(testingLocaleName, "ru-RU");
             },
             {interval: 50, timeout: 1000}
         );
@@ -214,7 +214,7 @@ describe('localization async', () => {
         unmount();
     });
 
-    it('locale async', async () => {
+    it("locale async", async () => {
         expect.assertions(0);
         let localeNameExternal: LocaleNameType = localizationConfig.defaultLocaleName;
         let isFetchingLocaleDataExternal = false;
@@ -235,9 +235,9 @@ describe('localization async', () => {
             // eslint-disable-next-line sonarjs/no-identical-functions
             useEffect(() => {
                 // eslint-disable-next-line jest/no-conditional-in-test
-                if (!isFetchingLocaleData && localeName !== 'ru-RU') {
-                    setLocaleName('ru-RU');
-                    localeNameExternal = 'ru-RU';
+                if (!isFetchingLocaleData && localeName !== "ru-RU") {
+                    setLocaleName("ru-RU");
+                    localeNameExternal = "ru-RU";
                 }
             }, [setLocaleName, isFetchingLocaleData, localeName]);
 
@@ -259,7 +259,7 @@ describe('localization async', () => {
                         />
                     </p>
                     <p className="hello-hard">
-                        <Locale stringKey="HARD_STRING" valueMap={{value1: 'value-1', value2: 'value-2'}} />
+                        <Locale stringKey="HARD_STRING" valueMap={{value1: "value-1", value2: "value-2"}} />
                     </p>
                 </div>
             );
@@ -273,7 +273,7 @@ describe('localization async', () => {
 
         await waitFor(
             () => {
-                assert.equal(localeNameExternal, 'ru-RU');
+                assert.equal(localeNameExternal, "ru-RU");
                 assert.equal(isFetchingLocaleDataExternal, false);
             },
             {
@@ -284,13 +284,13 @@ describe('localization async', () => {
 
         await waitFor(
             () => {
-                const helloNode = container.querySelector('.hello');
-                const helloSmthNode = container.querySelector('.hello-smth');
-                const helloHardNode = container.querySelector('.hello-hard');
+                const helloNode = container.querySelector(".hello");
+                const helloSmthNode = container.querySelector(".hello-smth");
+                const helloHardNode = container.querySelector(".hello-hard");
 
-                assert.equal(helloNode?.innerHTML, 'Привет');
-                assert.equal(helloSmthNode?.innerHTML, 'Привет, <span>друг</span>!');
-                assert.equal(helloHardNode?.innerHTML, 'эти value-1 данные value-2 есть value-2 здесь');
+                assert.equal(helloNode?.innerHTML, "Привет");
+                assert.equal(helloSmthNode?.innerHTML, "Привет, <span>друг</span>!");
+                assert.equal(helloHardNode?.innerHTML, "эти value-1 данные value-2 есть value-2 здесь");
             },
             {
                 interval: 50,
@@ -301,7 +301,7 @@ describe('localization async', () => {
         unmount();
     });
 
-    it('localization provider - change locale name async [variant - 1]', async () => {
+    it("localization provider - change locale name async [variant - 1]", async () => {
         expect.assertions(0);
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
@@ -312,25 +312,25 @@ describe('localization async', () => {
             const {localeName, setLocaleName, getLocalizedString, isFetchingLocaleData} = useLocale();
 
             useEffect(() => {
-                setLocaleName('ru-RU');
+                setLocaleName("ru-RU");
             }, [setLocaleName]);
 
             // eslint-disable-next-line sonarjs/no-identical-functions
             useEffect(() => {
                 // eslint-disable-next-line jest/no-conditional-in-test
-                if (!isFetchingLocaleData && localeName !== 'ru-RU') {
-                    setLocaleName('ru-RU');
+                if (!isFetchingLocaleData && localeName !== "ru-RU") {
+                    setLocaleName("ru-RU");
                 }
             }, [setLocaleName, isFetchingLocaleData, localeName]);
 
             return (
                 <div>
                     <p className="locale-name">{localeName}</p>
-                    <p className="hello">{getLocalizedString('HELLO')}</p>
+                    <p className="hello">{getLocalizedString("HELLO")}</p>
                     <p className="hello-smth">
-                        {getLocalizedString('HELLO_SMTH', {smth: getLocalizedString('FRIEND')})}
+                        {getLocalizedString("HELLO_SMTH", {smth: getLocalizedString("FRIEND")})}
                     </p>
-                    <p className="hello-world">{getLocalizedString('HELLO_WORLD')}</p>
+                    <p className="hello-world">{getLocalizedString("HELLO_WORLD")}</p>
                 </div>
             );
         }
@@ -341,17 +341,17 @@ describe('localization async', () => {
             </LocalizationProvider>
         );
 
-        const localeNameNode = container.querySelector('.locale-name');
-        const helloNode = container.querySelector('.hello');
-        const helloSmthNode = container.querySelector('.hello-smth');
-        const helloWorldNode = container.querySelector('.hello-world');
+        const localeNameNode = container.querySelector(".locale-name");
+        const helloNode = container.querySelector(".hello");
+        const helloSmthNode = container.querySelector(".hello-smth");
+        const helloWorldNode = container.querySelector(".hello-world");
 
         await waitFor(
             () => {
-                assert.equal(localeNameNode?.innerHTML, 'ru-RU');
-                assert.equal(helloNode?.innerHTML, 'Привет');
-                assert.equal(helloSmthNode?.innerHTML, 'Привет, друг!');
-                assert.equal(helloWorldNode?.innerHTML, 'Привет, Мир!');
+                assert.equal(localeNameNode?.innerHTML, "ru-RU");
+                assert.equal(helloNode?.innerHTML, "Привет");
+                assert.equal(helloSmthNode?.innerHTML, "Привет, друг!");
+                assert.equal(helloWorldNode?.innerHTML, "Привет, Мир!");
             },
             {
                 interval: 50,
@@ -362,19 +362,19 @@ describe('localization async', () => {
         unmount();
     });
 
-    it('localization helper - fetchLocalizationData', async () => {
+    it("localization helper - fetchLocalizationData", async () => {
         expect.assertions(1);
         const localizationConfigSync: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
             // eslint-disable-next-line unicorn/no-unused-properties
-            defaultLocaleName: 'en-US',
+            defaultLocaleName: "en-US",
             localization: {
-                'en-US': enUs,
-                'ru-RU': ruRu,
+                "en-US": enUs,
+                "ru-RU": ruRu,
             },
         };
 
         const localizationData = await fetchLocalizationData<LocaleNameType, LocaleKeysType>(
-            'ru-RU',
+            "ru-RU",
             localizationConfigSync.localization
         );
 
