@@ -5,7 +5,7 @@ import {useEffect} from "react";
 import {render} from "@testing-library/react";
 import {describe, it, expect} from "@jest/globals";
 
-import {createLocalization, LocalizationConfigType, LocalizationStateType} from "../../library";
+import {createLocalization, type LocalizationConfigType, type LocalizationStateType} from "../../library";
 
 const enUs = {
     FRIEND: "friend",

@@ -8,7 +8,7 @@ import {render, waitFor} from "@testing-library/react";
 import {describe, it, expect} from "@jest/globals";
 
 import {waitForTime} from "../../../../test-unit/util";
-import {createLocalization, LocalizationConfigType, LocalizationStateType} from "../../library";
+import {createLocalization, type LocalizationConfigType, type LocalizationStateType} from "../../library";
 import {fetchLocalizationData} from "../localization-helper";
 
 const enUs = {

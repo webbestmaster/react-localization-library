@@ -1,14 +1,9 @@
 /* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position, multiline-comment-style */
 
-import {Fragment, ReactNode} from "react";
+import {Fragment, type ReactNode} from "react";
 
 import {splitValueStringRegExp} from "./localization-const";
-import {
-    LocalizationDataType,
-    // LocalizationDataLoaderType,
-    LocalizationType,
-    RawLocalizationDataType,
-} from "./localization-type";
+import type {LocalizationDataType, LocalizationType, RawLocalizationDataType} from "./localization-type";
 
 function replacePlaceholderMap(rawString: string, valueMap: Record<string, string>): string {
     let resultString = rawString;

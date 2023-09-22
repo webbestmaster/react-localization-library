@@ -4,7 +4,7 @@
 
 import {StrictMode} from "react";
 
-import {createLocalization, LocalizationConfigType, LocalizationStateType} from "../library/library";
+import {createLocalization, type LocalizationConfigType, type LocalizationStateType} from "../library/library";
 
 const enUs = {
     DIFFERENT_VARIABLES: "Hello, {one}!",

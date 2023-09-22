@@ -29,7 +29,7 @@ npm i react-localization-library
 
 ## Usage
 ```typescript jsx
-import {createLocalization, LocalizationConfigType, LocalizationStateType} from 'react-localization-library';
+import {createLocalization, type LocalizationConfigType, type LocalizationStateType} from 'react-localization-library';
 
 const enUs = {
     DIFFERENT_VARIABLES: 'Hello, {one}!',

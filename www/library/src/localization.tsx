@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
-import {Context, createContext, useCallback, useContext, useEffect, useMemo, useState} from "react";
+import {type Context, createContext, useCallback, useContext, useEffect, useMemo, useState} from "react";
 
-import {
+import type {
     LocaleContextType,
     LocalePropsType,
     LocalizationConfigType,
@@ -14,12 +14,7 @@ import {
     getLocalizedComponentHelper,
     getLocalizedString as getLocalizedStringHelper,
 } from "./localization-helper";
-import {
-    LocalizationDataType,
-    // LocalizationDataLoaderType,
-    LocalizationType,
-    RawLocalizationDataType,
-} from "./localization-type";
+import type {LocalizationDataType, LocalizationType, RawLocalizationDataType} from "./localization-type";
 import {placeholderText} from "./localization-const";
 import {waitForTime} from "./util/timer";
 
