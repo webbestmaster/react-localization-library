@@ -64,7 +64,7 @@ function ExampleComponent(): JSX.Element {
             <h2>Localization data is fetching: {isFetchingLocaleData ? "Yes" : "No"}</h2>
 
             <button
-                onClick={() => {
+                onClick={(): void => {
                     setLocaleName("en-US");
                 }}
                 type="button"
@@ -72,7 +72,7 @@ function ExampleComponent(): JSX.Element {
                 use en-US
             </button>
             <button
-                onClick={() => {
+                onClick={(): void => {
                     setLocaleName("ru-RU");
                 }}
                 type="button"

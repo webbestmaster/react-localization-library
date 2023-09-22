@@ -1,5 +1,5 @@
 /* global setTimeout */
-export function waitForTime(timeInMilliseconds) {
+export async function waitForTime(timeInMilliseconds) {
     return new Promise((resolve) => {
         setTimeout(resolve, timeInMilliseconds);
     });

@@ -39,11 +39,11 @@ export function getLocalizedComponentHelper(stringKey, localeName, localization,
     }
     return partList;
 }
-export function fetchLocalizationData(localeName, localization) {
+export async function fetchLocalizationData(localeName, localization) {
     const localizationData = localization[localeName];
     if (typeof localizationData === "function") {
         return localizationData();
     }
-    return Promise.resolve(localizationData);
+    return localizationData;
 }
 //# sourceMappingURL=localization-helper.js.map

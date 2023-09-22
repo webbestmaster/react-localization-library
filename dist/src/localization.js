@@ -6,7 +6,8 @@ import { placeholderText } from "./localization-const";
 import { waitForTime } from "./util/timer";
 export function createLocalization(localizationConfig) {
     const { defaultLocaleName, localization: localizationArgument, onUseEffect = () => {
-        return null;
+        // eslint-disable-next-line no-undefined
+        return undefined;
     }, } = localizationConfig;
     let previousLocalizationName = defaultLocaleName;
     const localization = { ...localizationArgument };
@@ -24,7 +25,7 @@ export function createLocalization(localizationConfig) {
         const [localeName, setLocaleName] = useState(forcedLocaleName !== null && forcedLocaleName !== void 0 ? forcedLocaleName : defaultLocalizationData.localeName);
         const [isFetchingLocaleData, setIsFetchingLocaleData] = useState(defaultLocalizationData.isFetchingLocaleData);
         useEffect(() => {
-            if (forcedLocaleName) {
+            if (typeof forcedLocaleName === "string" && forcedLocaleName.trim() !== "") {
                 setLocaleName(forcedLocaleName);
             }
         }, [forcedLocaleName]);
@@ -40,7 +41,7 @@ export function createLocalization(localizationConfig) {
             onUseEffect({ isFetchingLocaleData: true, localeName: previousLocalizationName });
             // eslint-disable-next-line promise/catch-or-return, @typescript-eslint/no-floating-promises
             fetchLocalizationData(localeName, localization)
-                .then((localizationData) => {
+                .then(async (localizationData) => {
                 // Make sure that React's circle is updated, needed to update async locale
                 // eslint-disable-next-line promise/no-nesting
                 return waitForTime(0).then(() => {

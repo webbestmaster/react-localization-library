@@ -5,7 +5,7 @@ import {Fragment, type ReactNode} from "react";
 import {splitValueStringRegExp} from "./localization-const";
 import type {LocalizationDataType, LocalizationType, RawLocalizationDataType} from "./localization-type";
 
-function replacePlaceholderMap(rawString: string, valueMap: Record<string, string>): string {
+function replacePlaceholderMap(rawString: string, valueMap: Readonly<Record<string, string>>): string {
     let resultString = rawString;
 
     const keyList = Object.keys(valueMap);
@@ -22,7 +22,7 @@ export function getLocalizedString<TranslationKeys extends string, LocaleName ex
     stringKey: TranslationKeys,
     localeName: LocaleName,
     localization: LocalizationDataType<TranslationKeys>,
-    valueMap?: Record<string, string>
+    valueMap?: Readonly<Record<string, string>>
 ): string {
     // const localizationData = localization[localeName];
 
@@ -49,7 +49,7 @@ export function getLocalizedComponentHelper<TranslationKeys extends string, Loca
 
     // eslint-disable-next-line no-loops/no-loops
     for (const objectKey of keyList) {
-        partList = partList.map((part: JSX.Element | string, index: number): JSX.Element | string => {
+        partList = partList.map((part: Readonly<JSX.Element> | string, index: number): JSX.Element | string => {
             if (typeof part !== "string") {
                 return part;
             }
@@ -74,7 +74,7 @@ export function getLocalizedComponentHelper<TranslationKeys extends string, Loca
     return partList;
 }
 
-export function fetchLocalizationData<LocaleName extends string, TranslationKeys extends string>(
+export async function fetchLocalizationData<LocaleName extends string, TranslationKeys extends string>(
     localeName: LocaleName,
     localization: LocalizationType<LocaleName, TranslationKeys>
 ): Promise<LocalizationDataType<TranslationKeys>> {
@@ -84,5 +84,5 @@ export function fetchLocalizationData<LocaleName extends string, TranslationKeys
         return localizationData();
     }
 
-    return Promise.resolve(localizationData);
+    return localizationData;
 }

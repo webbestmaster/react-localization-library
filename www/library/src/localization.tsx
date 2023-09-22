@@ -24,8 +24,9 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
     const {
         defaultLocaleName,
         localization: localizationArgument,
-        onUseEffect = () => {
-            return null;
+        onUseEffect = (): void => {
+            // eslint-disable-next-line no-undefined
+            return undefined;
         },
     } = localizationConfig;
     let previousLocalizationName: LocaleName = defaultLocaleName;
@@ -55,7 +56,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
         );
 
         useEffect(() => {
-            if (forcedLocaleName) {
+            if (typeof forcedLocaleName === "string" && forcedLocaleName.trim() !== "") {
                 setLocaleName(forcedLocaleName);
             }
         }, [forcedLocaleName]);
@@ -75,7 +76,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
 
             // eslint-disable-next-line promise/catch-or-return, @typescript-eslint/no-floating-promises
             fetchLocalizationData<LocaleName, TranslationKeys>(localeName, localization)
-                .then((localizationData: LocalizationDataType<TranslationKeys>) => {
+                .then(async (localizationData: LocalizationDataType<TranslationKeys>) => {
                     // Make sure that React's circle is updated, needed to update async locale
                     // eslint-disable-next-line promise/no-nesting
                     return waitForTime(0).then(() => {
@@ -102,7 +103,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
         );
 
         const getLocalizedString = useCallback(
-            (stringKey: TranslationKeys, valueMap?: Record<string, string>): string => {
+            (stringKey: Readonly<TranslationKeys>, valueMap?: Readonly<Record<string, string>>): string => {
                 const existsLocalizationData: RawLocalizationDataType<TranslationKeys> = localization[localeName];
                 const previousLocalizationData: RawLocalizationDataType<TranslationKeys> =
                     localization[previousLocalizationName];
