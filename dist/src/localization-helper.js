@@ -11,6 +11,7 @@ function replacePlaceholderMap(rawString, valueMap) {
     }
     return resultString;
 }
+// eslint-disable-next-line @typescript-eslint/max-params
 export function getLocalizedString(stringKey, localeName, localization, valueMap) {
     // const localizationData = localization[localeName];
     // if (typeof localizationData === 'function') {
@@ -19,6 +20,7 @@ export function getLocalizedString(stringKey, localeName, localization, valueMap
     const resultString = localization[stringKey];
     return valueMap ? replacePlaceholderMap(resultString, valueMap) : resultString;
 }
+// eslint-disable-next-line @typescript-eslint/max-params
 export function getLocalizedComponentHelper(stringKey, localeName, localization, valueMap) {
     const resultString = localization[stringKey]; // 'the {value1} data {value2} is {value2} here'
     let partList = resultString.split(splitValueStringRegExp); // ["the ", "{value1} data ", "{value2} is ", "{value2} here"]
