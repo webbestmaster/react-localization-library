@@ -1,6 +1,4 @@
-/* eslint-disable sort-keys, react/no-multi-comp */
-
-/* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position, multiline-comment-style */
+/* eslint-disable capitalized-comments */
 
 import {StrictMode} from "react";
 

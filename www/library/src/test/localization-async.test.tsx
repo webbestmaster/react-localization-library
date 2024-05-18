@@ -56,7 +56,6 @@ describe("localization async", () => {
             localizationConfig
         );
 
-        // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
             const {localeName, getLocalizedString, isFetchingLocaleData} = useLocale();
 
@@ -112,7 +111,6 @@ describe("localization async", () => {
             localizationConfig
         );
 
-        // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
             const {localeName, setLocaleName, getLocalizedString, isFetchingLocaleData} = useLocale();
 
@@ -184,7 +182,6 @@ describe("localization async", () => {
             },
         });
 
-        // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
             const {setLocaleName, isFetchingLocaleData, localeName} = useLocale();
 
@@ -223,16 +220,13 @@ describe("localization async", () => {
             localizationConfig
         );
 
-        // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
             const {setLocaleName, isFetchingLocaleData, localeName} = useLocale();
 
-            // eslint-disable-next-line sonarjs/no-identical-functions
             useEffect(() => {
                 isFetchingLocaleDataExternal = isFetchingLocaleData;
             }, [isFetchingLocaleData]);
 
-            // eslint-disable-next-line sonarjs/no-identical-functions
             useEffect(() => {
                 // eslint-disable-next-line jest/no-conditional-in-test
                 if (!isFetchingLocaleData && localeName !== "ru-RU") {
@@ -307,7 +301,6 @@ describe("localization async", () => {
             localizationConfig
         );
 
-        // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
             const {localeName, setLocaleName, getLocalizedString, isFetchingLocaleData} = useLocale();
 
@@ -315,7 +308,6 @@ describe("localization async", () => {
                 setLocaleName("ru-RU");
             }, [setLocaleName]);
 
-            // eslint-disable-next-line sonarjs/no-identical-functions
             useEffect(() => {
                 // eslint-disable-next-line jest/no-conditional-in-test
                 if (!isFetchingLocaleData && localeName !== "ru-RU") {
@@ -365,7 +357,6 @@ describe("localization async", () => {
     it("localization helper - fetchLocalizationData", async () => {
         expect.assertions(1);
         const localizationConfigSync: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
-            // eslint-disable-next-line unicorn/no-unused-properties
             defaultLocaleName: "en-US",
             localization: {
                 "en-US": enUs,

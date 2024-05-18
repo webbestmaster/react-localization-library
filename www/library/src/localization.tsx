@@ -1,4 +1,3 @@
-/* eslint-disable react/no-multi-comp */
 import {type Context, createContext, useCallback, useContext, useEffect, useMemo, useState} from "react";
 
 import type {
@@ -74,11 +73,10 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
             setIsFetchingLocaleData(true);
             onUseEffect({isFetchingLocaleData: true, localeName: previousLocalizationName});
 
-            // eslint-disable-next-line promise/catch-or-return, @typescript-eslint/no-floating-promises
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             fetchLocalizationData<LocaleName, TranslationKeys>(localeName, localization)
                 .then(async (localizationData: LocalizationDataType<TranslationKeys>) => {
                     // Make sure that React's circle is updated, needed to update async locale
-                    // eslint-disable-next-line promise/no-nesting
                     return waitForTime(0).then(() => {
                         localization[localeName] = localizationData;
                         previousLocalizationName = localeName;
@@ -158,7 +156,6 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
     }
 
     function Locale(props: LocalePropsType<TranslationKeys>): JSX.Element {
-        // eslint-disable-next-line react/prop-types
         const {stringKey, valueMap = {}} = props;
 
         const {localeName} = useContext<LocaleContextType<TranslationKeys, LocaleName>>(LocaleContext);
@@ -195,7 +192,6 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
 
         console.log("There is no localization data, return jsx");
 
-        // eslint-disable-next-line react/jsx-no-useless-fragment
         return <>{placeholderText}</>;
     }
 

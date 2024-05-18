@@ -1,5 +1,4 @@
 import { jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
-/* eslint-disable react/no-multi-comp */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { fetchLocalizationData, getLocalizedComponentHelper, getLocalizedString as getLocalizedStringHelper, } from "./localization-helper";
 import { placeholderText } from "./localization-const";
@@ -39,11 +38,10 @@ export function createLocalization(localizationConfig) {
             }
             setIsFetchingLocaleData(true);
             onUseEffect({ isFetchingLocaleData: true, localeName: previousLocalizationName });
-            // eslint-disable-next-line promise/catch-or-return, @typescript-eslint/no-floating-promises
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             fetchLocalizationData(localeName, localization)
                 .then(async (localizationData) => {
                 // Make sure that React's circle is updated, needed to update async locale
-                // eslint-disable-next-line promise/no-nesting
                 return waitForTime(0).then(() => {
                     localization[localeName] = localizationData;
                     previousLocalizationName = localeName;
@@ -87,7 +85,6 @@ export function createLocalization(localizationConfig) {
         return _jsx(LocaleContext.Provider, { value: providedData, children: children });
     }
     function Locale(props) {
-        // eslint-disable-next-line react/prop-types
         const { stringKey, valueMap = {} } = props;
         const { localeName } = useContext(LocaleContext);
         const existsLocalizationData = localization[localeName];
@@ -99,7 +96,6 @@ export function createLocalization(localizationConfig) {
             return (_jsx(_Fragment, { children: getLocalizedComponentHelper(stringKey, localeName, previousLocalizationData, valueMap) }));
         }
         console.log("There is no localization data, return jsx");
-        // eslint-disable-next-line react/jsx-no-useless-fragment
         return _jsx(_Fragment, { children: placeholderText });
     }
     function useLocale() {

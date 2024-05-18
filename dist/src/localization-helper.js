@@ -1,11 +1,10 @@
 import { jsxs as _jsxs } from "react/jsx-runtime";
-/* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position, multiline-comment-style */
+/* eslint-disable capitalized-comments */
 import { Fragment } from "react";
 import { splitValueStringRegExp } from "./localization-const";
 function replacePlaceholderMap(rawString, valueMap) {
     let resultString = rawString;
     const keyList = Object.keys(valueMap);
-    // eslint-disable-next-line no-loops/no-loops
     for (const objectKey of keyList) {
         resultString = resultString.replace(new RegExp(`\\{${objectKey}\\}`, "gu"), valueMap[objectKey]);
     }
@@ -25,7 +24,6 @@ export function getLocalizedComponentHelper(stringKey, localeName, localization,
     const resultString = localization[stringKey]; // 'the {value1} data {value2} is {value2} here'
     let partList = resultString.split(splitValueStringRegExp); // ["the ", "{value1} data ", "{value2} is ", "{value2} here"]
     const keyList = Object.keys(valueMap);
-    // eslint-disable-next-line no-loops/no-loops
     for (const objectKey of keyList) {
         partList = partList.map((part, index) => {
             if (typeof part !== "string") {

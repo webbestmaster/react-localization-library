@@ -1,4 +1,4 @@
-/* eslint-disable multiline-comment-style, capitalized-comments, line-comment-position, multiline-comment-style */
+/* eslint-disable capitalized-comments */
 
 import {Fragment, type ReactNode} from "react";
 
@@ -10,7 +10,6 @@ function replacePlaceholderMap(rawString: string, valueMap: Readonly<Record<stri
 
     const keyList = Object.keys(valueMap);
 
-    // eslint-disable-next-line no-loops/no-loops
     for (const objectKey of keyList) {
         resultString = resultString.replace(new RegExp(`\\{${objectKey}\\}`, "gu"), valueMap[objectKey]);
     }
@@ -49,7 +48,6 @@ export function getLocalizedComponentHelper<TranslationKeys extends string, Loca
 
     const keyList = Object.keys(valueMap);
 
-    // eslint-disable-next-line no-loops/no-loops
     for (const objectKey of keyList) {
         partList = partList.map((part: Readonly<JSX.Element> | string, index: number): JSX.Element | string => {
             if (typeof part !== "string") {

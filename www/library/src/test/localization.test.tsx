@@ -42,7 +42,6 @@ describe("localization", () => {
             localizationConfig
         );
 
-        // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
             const {localeName, getLocalizedString} = useLocale();
 
@@ -83,7 +82,6 @@ describe("localization", () => {
             localizationConfig
         );
 
-        // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
             const {localeName, setLocaleName, getLocalizedString} = useLocale();
 
@@ -136,7 +134,6 @@ describe("localization", () => {
             },
         });
 
-        // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
             const {setLocaleName} = useLocale();
 
@@ -167,7 +164,6 @@ describe("localization", () => {
             defaultLocaleName: testingLocaleName,
         });
 
-        // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
             const {localeName} = useLocale();
 
@@ -193,7 +189,6 @@ describe("localization", () => {
             localizationConfig
         );
 
-        // eslint-disable-next-line react/no-multi-comp
         function InnerComponent(): JSX.Element {
             const {setLocaleName} = useLocale();
 

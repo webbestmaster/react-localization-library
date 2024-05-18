@@ -23,7 +23,7 @@ export interface LocalizationStateType<LocaleName extends string> {
 }
 
 export type LocalizationDataType<TranslationKeys extends string> = Record<TranslationKeys, string>;
-// eslint-disable-next-line max-len
+
 export type LocalizationDataLoaderType<TranslationKeys extends string> = () => Promise<
     LocalizationDataType<TranslationKeys>
 >;
@@ -31,7 +31,7 @@ export type LocalizationDataLoaderType<TranslationKeys extends string> = () => P
 export type RawLocalizationDataType<TranslationKeys extends string> =
     | LocalizationDataLoaderType<TranslationKeys>
     | LocalizationDataType<TranslationKeys>;
-// eslint-disable-next-line max-len
+
 export type LocalizationType<LocaleName extends string, TranslationKeys extends string> = Record<
     LocaleName,
     RawLocalizationDataType<TranslationKeys>
