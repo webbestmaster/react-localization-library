@@ -1,6 +1,6 @@
 {
   "name": "react-localization-library",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "React localization hooks and components",
   "keywords": [
     "locale",
@@ -72,7 +72,7 @@
     "storybook:build": "storybook build -c storybook",
     "clean-install-windows": "rd .\\node_modules\\ -r; npm i"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
     "react": "^18.3.1",
