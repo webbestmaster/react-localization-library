@@ -28,6 +28,8 @@ jobs:
 #    - run: npm i @types/react
 #    - run: npm i @types/react-dom
     - run: npm install
+    - run: npm i -D @types/react
+    - run: npm i -D @types/react-dom
     - run: npm i -D react
     - run: npm i -D react-dom
 
