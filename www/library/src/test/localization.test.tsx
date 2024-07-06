@@ -1,9 +1,8 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
-import {useEffect} from "react";
-
+import {describe, expect,it} from "@jest/globals";
 import {render} from "@testing-library/react";
-import {describe, it, expect} from "@jest/globals";
+import {useEffect} from "react";
 
 import {createLocalization, type LocalizationConfigType, type LocalizationStateType} from "../../library";
 

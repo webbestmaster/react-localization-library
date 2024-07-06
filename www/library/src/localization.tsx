@@ -7,14 +7,13 @@ import type {
     LocalizationLibraryType,
     ProviderPropsType,
 } from "../library";
-
+import {placeholderText} from "./localization-const";
 import {
     fetchLocalizationData,
     getLocalizedComponentHelper,
     getLocalizedString as getLocalizedStringHelper,
 } from "./localization-helper";
 import type {LocalizationDataType, LocalizationType, RawLocalizationDataType} from "./localization-type";
-import {placeholderText} from "./localization-const";
 import {waitForTime} from "./util/timer";
 
 export function createLocalization<TranslationKeys extends string, LocaleName extends string>(

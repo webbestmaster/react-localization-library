@@ -1,7 +1,7 @@
 import { jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { fetchLocalizationData, getLocalizedComponentHelper, getLocalizedString as getLocalizedStringHelper, } from "./localization-helper";
 import { placeholderText } from "./localization-const";
+import { fetchLocalizationData, getLocalizedComponentHelper, getLocalizedString as getLocalizedStringHelper, } from "./localization-helper";
 import { waitForTime } from "./util/timer";
 export function createLocalization(localizationConfig) {
     const { defaultLocaleName, localization: localizationArgument, onUseEffect = () => {

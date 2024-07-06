@@ -2,10 +2,9 @@
 
 import assert from "node:assert/strict";
 
-import {useEffect} from "react";
-
+import {describe, expect,it} from "@jest/globals";
 import {render, waitFor} from "@testing-library/react";
-import {describe, it, expect} from "@jest/globals";
+import {useEffect} from "react";
 
 import {waitForTime} from "../../../../test-unit/util";
 import {createLocalization, type LocalizationConfigType, type LocalizationStateType} from "../../library";
