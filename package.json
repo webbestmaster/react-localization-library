@@ -72,7 +72,7 @@
     "storybook:build": "storybook build -c storybook",
     "clean-install-windows": "rd .\\node_modules\\ -r; npm i"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@types/react": "^18.3.8",
     "@types/react-dom": "^18.3.0",
     "react": "^18.3.1",
