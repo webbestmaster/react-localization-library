@@ -1,6 +1,6 @@
 /* eslint-disable capitalized-comments */
 
-import {Fragment, type ReactNode} from "react";
+import {Fragment, type JSX, type ReactNode} from "react";
 
 import {splitValueStringRegExp} from "./localization-const";
 import type {LocalizationDataType, LocalizationType, RawLocalizationDataType} from "./localization-type";
@@ -17,7 +17,7 @@ function replacePlaceholderMap(rawString: string, valueMap: Readonly<Record<stri
     return resultString;
 }
 
-// eslint-disable-next-line @typescript-eslint/max-params
+// eslint-disable-next-line @typescript-eslint/max-params, @typescript-eslint/no-unnecessary-type-parameters, @typescript-eslint/no-unnecessary-type-parameters
 export function getLocalizedString<TranslationKeys extends string, LocaleName extends string>(
     stringKey: TranslationKeys,
     localeName: LocaleName,
@@ -35,7 +35,7 @@ export function getLocalizedString<TranslationKeys extends string, LocaleName ex
     return valueMap ? replacePlaceholderMap(resultString, valueMap) : resultString;
 }
 
-// eslint-disable-next-line @typescript-eslint/max-params
+// eslint-disable-next-line @typescript-eslint/max-params, @typescript-eslint/no-unnecessary-type-parameters
 export function getLocalizedComponentHelper<TranslationKeys extends string, LocaleName extends string>(
     stringKey: TranslationKeys,
     localeName: LocaleName,

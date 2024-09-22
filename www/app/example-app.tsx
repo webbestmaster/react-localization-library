@@ -1,6 +1,6 @@
 /* eslint-disable capitalized-comments */
 
-import {StrictMode} from "react";
+import {type JSX, StrictMode} from "react";
 
 import {createLocalization, type LocalizationConfigType, type LocalizationStateType} from "../library/library";
 

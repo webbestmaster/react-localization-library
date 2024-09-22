@@ -1,4 +1,4 @@
-import {type Context, createContext, useCallback, useContext, useEffect, useMemo, useState} from "react";
+import {type Context, createContext, type JSX, useCallback, useContext, useEffect, useMemo, useState} from "react";
 
 import type {
     LocaleContextType,
@@ -32,11 +32,11 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
     const localization: LocalizationType<LocaleName, TranslationKeys> = {...localizationArgument};
 
     const defaultLocalizationData: LocaleContextType<TranslationKeys, LocaleName> = {
-        // eslint-disable-next-line @typescript-eslint/unbound-method, jest/unbound-method
+        // eslint-disable-next-line jest/unbound-method
         getLocalizedString: String.toString,
         isFetchingLocaleData: typeof localization[defaultLocaleName] === "function",
         localeName: defaultLocaleName,
-        // eslint-disable-next-line @typescript-eslint/unbound-method, jest/unbound-method
+        // eslint-disable-next-line jest/unbound-method
         setLocaleName: String.toString,
     };
 
@@ -76,6 +76,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
             fetchLocalizationData<LocaleName, TranslationKeys>(localeName, localization)
                 .then(async (localizationData: LocalizationDataType<TranslationKeys>) => {
                     // Make sure that React's circle is updated, needed to update async locale
+                    // eslint-disable-next-line sonarjs/no-nested-functions
                     return waitForTime(0).then(() => {
                         localization[localeName] = localizationData;
                         previousLocalizationName = localeName;
@@ -190,7 +191,7 @@ export function createLocalization<TranslationKeys extends string, LocaleName ex
         }
 
         console.log("There is no localization data, return jsx");
-
+        // eslint-disable-next-line sonarjs/jsx-no-useless-fragment
         return <>{placeholderText}</>;
     }
 

@@ -1,10 +1,8 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-
 import assert from "node:assert/strict";
 
-import {describe, expect,it} from "@jest/globals";
+import {describe, expect, it} from "@jest/globals";
 import {render, waitFor} from "@testing-library/react";
-import {useEffect} from "react";
+import {type JSX, useEffect} from "react";
 
 import {waitForTime} from "../../../../test-unit/util";
 import {createLocalization, type LocalizationConfigType, type LocalizationStateType} from "../../library";
@@ -49,6 +47,7 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
 describe("localization async", () => {
     it("localization provider async", async () => {
         expect.assertions(5);
+
         let isFetchingLocaleDataExternal = false;
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
@@ -81,6 +80,7 @@ describe("localization async", () => {
         );
 
         expect(isFetchingLocaleDataExternal).toBe(true);
+
         await waitFor(
             () => {
                 assert.equal(isFetchingLocaleDataExternal, false);
@@ -103,6 +103,7 @@ describe("localization async", () => {
 
     it("localization provider - change locale name async", async () => {
         expect.assertions(4);
+
         let localeNameExternal: LocaleNameType = localizationConfig.defaultLocaleName;
         let isFetchingLocaleDataExternal = false;
 
@@ -169,6 +170,7 @@ describe("localization async", () => {
 
     it("localization provider - on useEffect async", async () => {
         expect.assertions(0);
+
         let testingLocaleName: LocaleNameType = "en-US";
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
@@ -212,6 +214,7 @@ describe("localization async", () => {
 
     it("locale async", async () => {
         expect.assertions(0);
+
         let localeNameExternal: LocaleNameType = localizationConfig.defaultLocaleName;
         let isFetchingLocaleDataExternal = false;
 
@@ -296,6 +299,7 @@ describe("localization async", () => {
 
     it("localization provider - change locale name async [variant - 1]", async () => {
         expect.assertions(0);
+
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
@@ -355,6 +359,7 @@ describe("localization async", () => {
 
     it("localization helper - fetchLocalizationData", async () => {
         expect.assertions(1);
+
         const localizationConfigSync: LocalizationConfigType<LocaleKeysType, LocaleNameType> = {
             defaultLocaleName: "en-US",
             localization: {

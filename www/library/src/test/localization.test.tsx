@@ -1,8 +1,6 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-
-import {describe, expect,it} from "@jest/globals";
+import {describe, expect, it} from "@jest/globals";
 import {render} from "@testing-library/react";
-import {useEffect} from "react";
+import {type JSX, useEffect} from "react";
 
 import {createLocalization, type LocalizationConfigType, type LocalizationStateType} from "../../library";
 
@@ -37,6 +35,7 @@ const localizationConfig: LocalizationConfigType<LocaleKeysType, LocaleNameType>
 describe("localization", () => {
     it("localization provider", () => {
         expect.assertions(4);
+
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
@@ -77,6 +76,7 @@ describe("localization", () => {
 
     it("localization provider - change locale name", () => {
         expect.assertions(4);
+
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );
@@ -121,6 +121,7 @@ describe("localization", () => {
 
     it("localization provider - on useEffect", () => {
         expect.assertions(1);
+
         let testingLocaleName: LocaleNameType = "en-US";
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
@@ -156,6 +157,7 @@ describe("localization", () => {
 
     it("localization provider - use forced locale name", () => {
         expect.assertions(1);
+
         let testingLocaleName: LocaleNameType = "en-US";
 
         const {LocalizationProvider, useLocale} = createLocalization<LocaleKeysType, LocaleNameType>({
@@ -184,6 +186,7 @@ describe("localization", () => {
 
     it("locale", () => {
         expect.assertions(3);
+
         const {LocalizationProvider, useLocale, Locale} = createLocalization<LocaleKeysType, LocaleNameType>(
             localizationConfig
         );

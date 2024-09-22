@@ -1,4 +1,4 @@
-import type {FC, ReactNode} from "react";
+import type {FC, JSX, ReactNode} from "react";
 
 export interface LocaleContextType<TranslationKeys extends string, LocaleName extends string> {
     getLocalizedString: (stringKey: TranslationKeys, valueMap?: Readonly<Record<string, string>>) => string;
